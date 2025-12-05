@@ -4,7 +4,7 @@ import Form from './Form';
 
 const SignUp = () => {
   return (
-    <div className="py-10 lg:py-14 min-h-screen px-20 text-black">
+    <div className="py-10 lg:py-14 min-h-screen px-5 md:px-20 text-black">
       <div className="flex justify-center pb-8 lg:pb-14">
         <Logo textColor="text-black" />
       </div>
