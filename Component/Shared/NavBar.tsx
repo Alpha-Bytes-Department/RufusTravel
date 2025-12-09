@@ -116,7 +116,7 @@ const NavBar = () => {
       {/* ===============================Mobile Menu Overlay============================== */}
       {isMobileMenuOpen && (
         <div
-          className="fixed inset-0 top-16 z-40 bg-yellow-500 opacity-50 md:hidden"
+          className="fixed inset-0 top-16 z-40 bg-gray-700 opacity-80 md:hidden"
           onClick={closeMobileMenu}
         />
       )}
