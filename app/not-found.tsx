@@ -1,30 +1,28 @@
 import Link from "next/link";
-import notFoundImage from "@/public/404NotFound.webp";
+import notFoundImage from "@/public/404.svg";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
   return (
-    <div
-      className="flex h-[80vh] items-center justify-center  bg-cover bg-center "
-      style={{
-        backgroundImage: `url(${notFoundImage.src})`,
-        backgroundRepeat: "no-repeat", // Ensure the image doesn't repeat
-        backgroundSize: "fit", // Make the image cover the entire container
-        backgroundPosition: "center center", // Center the image
-      }}
-    >
-      <div className="bg-white/70 p-8 rounded-lg shadow-lg text-center"></div>
-        <h1 className="text-4xl font-bold mb-4 text-gray-800">404 - Page Not Found</h1>
-        <p className="text-lg mb-6 text-gray-600">
-          Oops! The page you're looking for doesn't exist.
-        </p>
-        <Link
-          href="/"
-          className="inline-block bg-yellow-500 text-white px-6 py-3 rounded-full hover:bg-yellow-600 transition-colors"
-        >
-          Go Back Home
-        </Link>
+    <div className=" ">
+      <h1 className=" text-center px-5 text-2xl md:text-3xl lg:text-6xl font-bold py-6">
+        Ooops .......!
+      </h1>
+      <p className="text-center px-5 text-lg md:text-xl lg:text-2xl pb-6">
+        The page you are looking for does not exist.
+      </p>
+      <Image
+        src={notFoundImage}
+        alt="404 Not Found"
+        width={600}
+        height={400}
+        className="mx-auto w-[50vw]"
+      />
+      <div className=" my-6 px-5 flex justify-center ">
+        <Button className=" bg-yellow-400 py-6 px-10 rounded-xl text-yellow-900">Go Back Home</Button>
       </div>
-   
+    </div>
   );
 };
 

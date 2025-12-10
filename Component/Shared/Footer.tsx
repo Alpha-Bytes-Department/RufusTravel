@@ -28,7 +28,7 @@ const Footer = () => {
   return (
     <footer className="bg-[#3A3A3A] text-white">
       {/* ===============================Main Footer Content============================== */}
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+      <div className="mx-auto max-w-[80vw] px-4 py-4 lg:py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* ===============================Brand Section============================== */}
           <div className="space-y-4 md:col-span-2 lg:col-span-1">
@@ -216,7 +216,7 @@ const Footer = () => {
 
       {/* ===============================Footer Bottom============================== */}
       <div className="border-t border-gray-700">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[80vw] px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <p className="text-center text-sm text-gray-400 sm:text-left">
               © 2025 Tripbank. All rights reserved.

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { MessageSquare,Send,Clock4,Headphones } from "lucide-react";
+import { MessageSquare, Send, Clock4, Headphones } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -36,7 +36,7 @@ const ContactForm = () => {
 
   return (
     <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-[80vw]">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* ===============================Contact Form============================== */}
           <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-lg sm:p-8">
@@ -155,8 +155,6 @@ const ContactForm = () => {
               <div className="mb-4 flex items-center gap-3">
                 <div className="flex size-10 items-center justify-center rounded-lg ">
                   <Clock4 className="size-8 text-yellow-600" />
-                 
-                  
                 </div>
                 <h3 className="font-bold text-xl text-gray-900">
                   Business Hours
@@ -197,10 +195,8 @@ const ContactForm = () => {
             {/* ===============================Need Immediate Help============================== */}
             <div className="rounded-2xl bg-linear-to-br text-yellow-900 from-yellow-400 to-yellow-500 p-6 shadow-lg sm:p-8">
               <div className="mb-4 flex items-center gap-3">
-               <Headphones className="size-8 " />
-                <h3 className="font-bold  text-xl">
-                  Need Immediate Help?
-                </h3>
+                <Headphones className="size-8 " />
+                <h3 className="font-bold  text-xl">Need Immediate Help?</h3>
               </div>
 
               <p className="mb-6  text-sm sm:text-base">

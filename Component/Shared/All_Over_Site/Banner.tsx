@@ -72,7 +72,7 @@ const Banner = ({ page }: { page: String }) => {
 
       <div>
         {page === "contact" && (
-          <div className="mx-auto grid max-w-7xl py-8 lg:py-14 grid-cols-1 px-10 lg:px-8 gap-4 sm:gap-6 md:grid-cols-3">
+          <div className="mx-auto grid max-w-[80vw] py-8 lg:py-14 grid-cols-1 px-10 lg:px-8 gap-4 sm:gap-6 md:grid-cols-3">
             {contactUscontent.map((item) => (
               <div
                 key={item.id}
@@ -99,10 +99,10 @@ const Banner = ({ page }: { page: String }) => {
           </div>
         )}
         {page === "about" && (
-          <div className=" mx-auto max-w-7xl px-5 py-8 lg:py-16 lg:px-0 grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+          <div className=" mx-auto max-w-[80vw] px-5 py-8 lg:py-16 lg:px-0 grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
             {aboutUscontent.map((item) => (
-              <div className=" text-center">
-                <h2 key={item.id} className="md:text-4xl text-xl font-bold text-yellow-900">
+              <div key={item.id} className=" text-center">
+                <h2 className="md:text-4xl text-xl font-bold text-yellow-900">
                   {item.title}
                 </h2>
                 <p className="text-gray-600 text-lg">{item.description}</p>

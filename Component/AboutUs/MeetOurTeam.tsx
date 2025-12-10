@@ -14,7 +14,7 @@ const MeetOurTeam = () => {
 
   return (
     <section className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-[80vw]">
         {/* ===============================Section Header============================== */}
         <div className="mb-10 text-center lg:mb-12">
           <h2 className="mb-3 font-bold text-2xl text-gray-900 sm:text-3xl lg:text-4xl">
@@ -33,7 +33,13 @@ const MeetOurTeam = () => {
               className="group mx-auto max-w-xs overflow-hidden rounded-2xl bg-white shadow-md transition-all hover:shadow-xl"
             >
               {/* ===============================Member Image============================== */}
-              <Image src={member.image} alt={member.name} width={550} height={550} className="" />
+              <Image
+                src={member.image}
+                alt={member.name}
+                width={550}
+                height={550}
+                className=""
+              />
 
               {/* ===============================Member Info============================== */}
               <div className="p-4 text-center sm:p-6">
