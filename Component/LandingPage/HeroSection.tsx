@@ -46,7 +46,7 @@ const HeroSection = () => {
         </div>
 
         {/* ===============================Search Form Container============================== */}
-        <div className="w-full max-w-6xl  ">
+        <div className="w-full max-w-7xl  ">
           {/* ===============================Tab Buttons============================== */}
           <div className="mb-6 flex lg:bg-[#e0cfcf49] py-2 w-fit mx-auto px-2 rounded-full flex-wrap justify-center gap-2 sm:gap-3">
             {tabs.map((tab) => {
