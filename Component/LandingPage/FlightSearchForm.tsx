@@ -11,6 +11,9 @@ import DateTimePicker from "./DateTimePicker";
 // import TravelerSelector from "./TravelerSelector";
 import TravelerSelector from "./TravelerSelector";
 
+
+// TODO: adjust the date and time format
+
 interface FlightSegment {
   from: string;
   to: string;

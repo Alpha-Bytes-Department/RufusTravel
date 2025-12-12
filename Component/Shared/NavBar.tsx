@@ -6,15 +6,19 @@ import { usePathname } from "next/navigation";
 import Logo from "./Logo";
 import { Heart, Calendar, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/Providers/AuthProvider";
 
 const NavBar = () => {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const {user}=useAuth()
 
   // ===============================Navigation Links==============================
+  // TODO: update user condition based on auth state
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/explore", label: "Explore" },
+    ...(!user ? [{ href: "/bookings", label: "Bookings" }] : []),
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
   ];

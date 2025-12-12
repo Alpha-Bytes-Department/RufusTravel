@@ -26,8 +26,8 @@ interface InteractiveMapProps {
   tours: Tour[];
 }
 
-const geoUrl =
-  "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json";
+// Using a reliable GeoJSON source from world-atlas
+const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
 const InteractiveMap = ({ tours }: InteractiveMapProps) => {
   const [tooltipContent, setTooltipContent] = useState("");
@@ -38,12 +38,15 @@ const InteractiveMap = ({ tours }: InteractiveMapProps) => {
   };
 
   return (
-    <div className="relative w-full h-full bg-gray-50 rounded-lg overflow-hidden">
+    <div className="relative w-full h-full bg-blue-50 rounded-lg overflow-hidden">
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
-          scale: 100,
+          scale: 147,
+          center: [0, 0],
         }}
+        width={800}
+        height={600}
         className="w-full h-full"
       >
         <ZoomableGroup
@@ -51,7 +54,7 @@ const InteractiveMap = ({ tours }: InteractiveMapProps) => {
           center={position.coordinates as [number, number]}
           onMoveEnd={handleMoveEnd}
           minZoom={1}
-          maxZoom={8}
+          maxZoom={20}
         >
           <Geographies geography={geoUrl}>
             {({ geographies }: any) =>
@@ -59,13 +62,28 @@ const InteractiveMap = ({ tours }: InteractiveMapProps) => {
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-                  fill="#E5E7EB"
-                  stroke="#9CA3AF"
-                  strokeWidth={0.5}
+                  fill="#D4E5D4"
+                  stroke="#4A5568"
+                  strokeWidth={0.75}
                   style={{
-                    default: { outline: "none" },
-                    hover: { fill: "#D1D5DB", outline: "none" },
-                    pressed: { fill: "#9CA3AF", outline: "none" },
+                    default: {
+                      fill: "#D4E5D4",
+                      stroke: "#4A5568",
+                      strokeWidth: 0.75,
+                      outline: "none",
+                    },
+                    hover: {
+                      fill: "#A8D5BA",
+                      stroke: "#2D3748",
+                      strokeWidth: 1,
+                      outline: "none",
+                    },
+                    pressed: {
+                      fill: "#86C7A0",
+                      stroke: "#1A202C",
+                      strokeWidth: 1,
+                      outline: "none",
+                    },
                   }}
                 />
               ))
@@ -88,12 +106,14 @@ const InteractiveMap = ({ tours }: InteractiveMapProps) => {
                 transform="translate(-12, -24)"
                 className="cursor-pointer hover:scale-110 transition-transform"
               >
+                {/* Pin shadow */}
+                <ellipse cx="12" cy="26" rx="4" ry="2" fill="rgba(0,0,0,0.2)" />
                 {/* Pin shape */}
                 <path
                   d="M12 0C7.58 0 4 3.58 4 8c0 5.5 8 13 8 13s8-7.5 8-13c0-4.42-3.58-8-8-8z"
-                  fill={tour.badge.text === "Hotel" ? "#EAB308" : "#F59E0B"}
+                  fill={tour.badge.text === "Hotel" ? "#FBBF24" : "#F97316"}
                   stroke="#ffffff"
-                  strokeWidth="1.5"
+                  strokeWidth="2"
                 />
                 {/* Center dot */}
                 <circle cx="12" cy="8" r="3" fill="#ffffff" />
@@ -105,24 +125,24 @@ const InteractiveMap = ({ tours }: InteractiveMapProps) => {
 
       {/* Tooltip */}
       {tooltipContent && (
-        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-gray-900/90 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg pointer-events-none z-10">
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-gray-900/90 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg pointer-events-none z-10 max-w-xs text-center">
           {tooltipContent}
         </div>
       )}
 
       {/* Zoom Controls */}
-      <div className="absolute bottom-4 right-4 flex flex-col gap-2">
+      <div className="absolute bottom-4 right-4 flex flex-col gap-2 z-20">
         <button
           onClick={() =>
             setPosition((pos) => ({
               ...pos,
-              zoom: Math.min(pos.zoom * 1.5, 8),
+              zoom: Math.min(pos.zoom * 1.5, 20),
             }))
           }
-          className="bg-white hover:bg-gray-100 text-gray-700 font-bold size-10 rounded-lg shadow-md transition-colors flex items-center justify-center"
+          className="bg-white hover:bg-gray-100 text-gray-700 font-bold size-10 rounded-lg shadow-lg transition-colors flex items-center justify-center border border-gray-300"
           aria-label="Zoom in"
         >
-          +
+          <span className="text-xl">+</span>
         </button>
         <button
           onClick={() =>
@@ -131,39 +151,24 @@ const InteractiveMap = ({ tours }: InteractiveMapProps) => {
               zoom: Math.max(pos.zoom / 1.5, 1),
             }))
           }
-          className="bg-white hover:bg-gray-100 text-gray-700 font-bold size-10 rounded-lg shadow-md transition-colors flex items-center justify-center"
+          className="bg-white hover:bg-gray-100 text-gray-700 font-bold size-10 rounded-lg shadow-lg transition-colors flex items-center justify-center border border-gray-300"
           aria-label="Zoom out"
         >
-          −
+          <span className="text-xl">−</span>
         </button>
         <button
           onClick={() => setPosition({ coordinates: [0, 20], zoom: 1 })}
-          className="bg-white hover:bg-gray-100 text-gray-700 text-xs font-medium px-2 py-2 rounded-lg shadow-md transition-colors"
+          className="bg-white hover:bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-2 rounded-lg shadow-lg transition-colors border border-gray-300"
           aria-label="Reset view"
         >
           Reset
         </button>
       </div>
 
-      {/* Legend */}
-      <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm p-3 rounded-lg shadow-md">
-        <div className="text-xs font-semibold text-gray-700 mb-2">Legend</div>
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <div className="size-4 rounded-full bg-yellow-500"></div>
-            <span className="text-xs text-gray-600">Hotel</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="size-4 rounded-full bg-orange-500"></div>
-            <span className="text-xs text-gray-600">Tour</span>
-          </div>
-        </div>
-      </div>
+      
+      
 
-      {/* Instructions */}
-      <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-lg shadow-md">
-        <p className="text-xs text-gray-600">🖱️ Drag to pan • Scroll to zoom</p>
-      </div>
+      
     </div>
   );
 };

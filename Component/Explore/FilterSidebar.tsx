@@ -172,29 +172,43 @@ const FilterSidebar = ({ onFilterChange, tours }: FilterSidebarProps) => {
           Location Map ({tours?.length || 0}{" "}
           {tours?.length === 1 ? "location" : "locations"})
         </Label>
-        <div className="bg-gray-100 rounded-lg overflow-hidden h-80 relative">
-          {showMap && tours?.length > 0 ? (
-            <InteractiveMap tours={tours} />
-          ) : (
-            <div
-              className="w-full h-full flex items-center justify-center cursor-pointer group"
-              onClick={() => tours?.length > 0 && setShowMap(true)}
-            >
-              <div className="text-center space-y-3">
-                <MapPin className="size-12 text-yellow-600 mx-auto group-hover:scale-110 transition-transform" />
-                <p className="text-gray-600 font-medium">
-                  {tours?.length > 0
-                    ? "Click to view interactive map"
-                    : "No locations available"}
-                </p>
-                {tours?.length > 0 && (
-                  <p className="text-xs text-gray-500">
-                    {tours.length} destinations available
-                  </p>
-                )}
-              </div>
+
+        <div>
+          <div className="  flex items-center gap-4 left-4 bg-white/95 backdrop-blur-sm p-2 rounded-lg shadow-lg border border-gray-200 z-20">
+            <div className="text-xs font-bold text-gray-900">Legend : </div>
+            <div className="flex items-center gap-2">
+              <div className="size-4 rounded-full bg-amber-400 border border-white shadow-sm"></div>
+              <span className="text-xs text-gray-700 font-medium">Hotel</span>
             </div>
-          )}
+            <div className="flex items-center gap-2">
+              <div className="size-4 rounded-full bg-orange-500 border border-white shadow-sm"></div>
+              <span className="text-xs text-gray-700 font-medium">Tour</span>
+            </div>
+          </div>
+          <div className="bg-gray-100 rounded-lg overflow-hidden h-80 relative">
+            {showMap && tours?.length > 0 ? (
+              <InteractiveMap tours={tours} />
+            ) : (
+              <div
+                className="w-full h-full flex items-center justify-center cursor-pointer group"
+                onClick={() => tours?.length > 0 && setShowMap(true)}
+              >
+                <div className="text-center space-y-3">
+                  <MapPin className="size-12 text-yellow-600 mx-auto group-hover:scale-110 transition-transform" />
+                  <p className="text-gray-600 font-medium">
+                    {tours?.length > 0
+                      ? "Click to view interactive map"
+                      : "No locations available"}
+                  </p>
+                  {tours?.length > 0 && (
+                    <p className="text-xs text-gray-500">
+                      {tours.length} destinations available
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
         <Button
           variant="outline"

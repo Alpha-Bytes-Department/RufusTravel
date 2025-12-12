@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect, useMemo } from "react";
 import SearchBar from "./SearchBar";
 import FilterSidebar from "./FilterSidebar";
@@ -29,7 +28,6 @@ interface Tour {
   coordinates: [number, number];
 }
 
-// Sample data - replace with your API data
 const sampleTours: Tour[] = [
   {
     id: "1",
@@ -221,24 +219,21 @@ const Explore = () => {
   const handleSearch = (query: string, type: string) => {
     setSearchQuery(query.toLowerCase());
     setSearchType(type);
-    setCurrentPage(1); // Reset to first page on search
+    setCurrentPage(1); 
   };
 
   const handleFilterChange = (newFilters: FilterState) => {
     setFilters(newFilters);
-    setCurrentPage(1); // Reset to first page on filter change
+    setCurrentPage(1); 
   };
 
   const handleBookNow = (id: string) => {
     console.log("Book now:", id);
-    // Implement booking logic here
   };
 
-  // Filter and sort tours
   const filteredAndSortedTours = useMemo(() => {
     let result = [...sampleTours];
 
-    // Apply search filter
     if (searchQuery) {
       result = result.filter(
         (tour) =>
@@ -248,23 +243,19 @@ const Explore = () => {
       );
     }
 
-    // Apply type filter
     if (searchType !== "All Types") {
       result = result.filter(
         (tour) => tour.badge.text.toLowerCase() === searchType.toLowerCase()
       );
     }
 
-    // Apply price filter
     result = result.filter(
       (tour) =>
         tour.price >= filters.priceRange[0] &&
         tour.price <= filters.priceRange[1]
     );
 
-    // Apply property type filter
     if (filters.propertyTypes.length > 0) {
-      // For demo, filter by badge text
       result = result.filter((tour) =>
         filters.propertyTypes.some((type) =>
           tour.badge.text.toLowerCase().includes(type)
@@ -272,14 +263,12 @@ const Explore = () => {
       );
     }
 
-    // Apply star rating filter
     if (filters.starRatings.length > 0) {
       result = result.filter((tour) =>
         filters.starRatings.some((rating) => Math.floor(tour.rating) === rating)
       );
     }
 
-    // Apply amenities filter
     if (filters.amenities.length > 0) {
       result = result.filter((tour) =>
         filters.amenities.every((amenity) =>
@@ -290,7 +279,6 @@ const Explore = () => {
       );
     }
 
-    // Apply sorting
     switch (sortBy) {
       case "Price: Low to High":
         result.sort((a, b) => a.price - b.price);
@@ -305,14 +293,12 @@ const Explore = () => {
         result.sort((a, b) => b.reviewCount - a.reviewCount);
         break;
       default:
-        // Recommended - keep original order
         break;
     }
 
     return result;
   }, [searchQuery, searchType, filters, sortBy]);
 
-  // Paginate tours
   const paginatedTours = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -321,7 +307,6 @@ const Explore = () => {
 
   const totalPages = Math.ceil(filteredAndSortedTours.length / itemsPerPage);
 
-  // Reset to page 1 if current page exceeds total pages
   useEffect(() => {
     if (currentPage > totalPages && totalPages > 0) {
       setCurrentPage(1);
@@ -330,14 +315,10 @@ const Explore = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Main Container */}
       <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-6">
-        {/* Search Bar */}
         <SearchBar onSearch={handleSearch} />
 
-        {/* Layout Container */}
         <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6">
-          {/* Filter Sidebar - Desktop */}
           <aside className="hidden lg:block">
             <FilterSidebar
               onFilterChange={handleFilterChange}
@@ -345,7 +326,6 @@ const Explore = () => {
             />
           </aside>
 
-          {/* Mobile Filter Toggle */}
           <button
             onClick={() => setShowMobileFilter(!showMobileFilter)}
             className="lg:hidden fixed bottom-6 right-6 z-50 bg-yellow-400 text-gray-900 p-4 rounded-full shadow-lg flex items-center gap-2 font-semibold"
@@ -368,7 +348,6 @@ const Explore = () => {
             Filters
           </button>
 
-          {/* Mobile Filter Sidebar */}
           {showMobileFilter && (
             <div className="lg:hidden fixed inset-0 z-50 bg-black/50">
               <div className="absolute right-0 top-0 h-full w-full max-w-sm bg-white overflow-y-auto">
@@ -388,9 +367,7 @@ const Explore = () => {
             </div>
           )}
 
-          {/* Main Content */}
           <main className="space-y-6">
-            {/* Results Header */}
             <ResultsHeader
               category={searchType === "All Types" ? "All Results" : searchType}
               resultCount={filteredAndSortedTours.length}
@@ -400,7 +377,6 @@ const Explore = () => {
               onSortChange={setSortBy}
             />
 
-            {/* Tour Cards Grid */}
             {paginatedTours.length > 0 ? (
               <div
                 className={`grid gap-6 ${
@@ -428,7 +404,6 @@ const Explore = () => {
               </div>
             )}
 
-            {/* Pagination */}
             {totalPages > 1 && (
               <Pagination
                 currentPage={currentPage}
