@@ -92,7 +92,7 @@ const BookingSearchForm = ({ onSearch }: BookingSearchFormProps) => {
   const returnDate = watch("returnDate");
 
   return (
-    <div className="w-full bg-white rounded-2xl shadow-lg p-6 mb-6">
+    <div className="w-full  lg:p-6 mb-6">
       {/* ===============================Tabs============================== */}
       <div className="mb-6 flex  py-2 w-fit mx-auto px-2 rounded-full flex-wrap justify-center gap-2">
         {tabs.map((tab) => {
@@ -119,7 +119,7 @@ const BookingSearchForm = ({ onSearch }: BookingSearchFormProps) => {
       {activeTab === "flight" && (
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* ===============================Trip Type============================== */}
-          <div className="flex items-center justify-center gap-6 mb-6 p-4 bg-gray-50 rounded-xl flex-wrap">
+          <div className="flex w-fit mx-auto items-center lg:border-gray-500 lg:border justify-center gap-6 mb-6 p-4 lg:p-1 rounded-full flex-wrap">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="radio"
@@ -150,31 +150,31 @@ const BookingSearchForm = ({ onSearch }: BookingSearchFormProps) => {
           </div>
 
           {/* ===============================Search Fields============================== */}
-          <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 ${
-            tripType === "roundWay" ? "lg:grid-cols-6" : "lg:grid-cols-5"
-          }`}>
+          <div
+            className={`grid items-center grid-cols-1 md:grid-cols-2 gap-4 mb-6 ${
+              tripType === "roundWay" ? "lg:grid-cols-6" : "lg:grid-cols-5"
+            }`}
+          >
             {/* ---Flying From--- */}
-            <div className="max-h-20 flex gap-3 items-center px-3 rounded-xl border border-gray-300 bg-white">
+            <div className="max-h-20 flex gap-3 items-center p-3  rounded-xl border border-gray-300 bg-white">
               <Send className="size-8 text-yellow-600" />
               <div className="flex flex-col">
-                <Label className="text-xs pl-2 text-yellow-900">
+                <Label className="text-xs pl-1.5 text-yellow-900">
                   Flight From
                 </Label>
                 <input
                   {...register("flyingFrom")}
-                  className="pl- py-1 max-w-44 border-none mt-2 text-yellow-600 font-bold text-lg focus:outline-0"
+                  className=" py-1 max-w-44 border-none mt-2 text-yellow-600 font-bold text-lg focus:outline-0"
                   placeholder="City"
                 />
               </div>
             </div>
 
             {/* ---Flying To--- */}
-            <div className="max-h-20 flex gap-3 items-center px-3 rounded-xl border border-gray-300 bg-white">
+            <div className="max-h-20 flex gap-3 items-center p-3 rounded-xl border border-gray-300 bg-white">
               <MapPin className="size-8 text-yellow-600" />
               <div className="flex flex-col">
-                <Label className="text-xs pl-2 text-yellow-900">
-                  Flight To
-                </Label>
+                <Label className="text-xs text-yellow-900">Flight To</Label>
                 <input
                   {...register("flyingTo")}
                   className="pl- py-1 max-w-44 border-none mt-2 text-yellow-600 font-bold text-lg focus:outline-0"
@@ -186,9 +186,9 @@ const BookingSearchForm = ({ onSearch }: BookingSearchFormProps) => {
             {/* ---Journey Date--- */}
             <div
               className={`border border-gray-300 rounded-xl transition-all duration-300 ease-in-out ${
-                tripType === "roundWay" ? "col-span-2" : "col-span-1"
+                tripType === "roundWay" ? "md:col-span-2" : "col-span-1"
               } grid ${
-                tripType === "roundWay" ? "grid-cols-2" : "grid-cols-1"
+                tripType === "roundWay" ? "md:grid-cols-2" : "grid-cols-1"
               } gap-4`}
             >
               <div className="relative space-y-2">
@@ -216,7 +216,7 @@ const BookingSearchForm = ({ onSearch }: BookingSearchFormProps) => {
                   />
                 )}
               </div>
-              
+
               {/* ---Return Date--- */}
               {tripType === "roundWay" && (
                 <div className="relative space-y-2">
