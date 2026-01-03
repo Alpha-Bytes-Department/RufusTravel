@@ -107,7 +107,7 @@ const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
           </div>
           <Button
             onClick={() => onDetailsClick(flight.id)}
-            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-6 py-2 rounded-lg w-full"
+            className="bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold px-6 py-2 rounded-lg w-full"
           >
             Flight Details
           </Button>
@@ -129,7 +129,6 @@ const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
             {/* Airline Logo */}
             <div className="flex items-center gap-3 w-24">
               <img
-                src={flight.return.airlineLogo}
                 alt={flight.return.airline}
                 className="w-12 h-12 object-contain"
               />
