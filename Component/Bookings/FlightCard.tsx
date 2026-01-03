@@ -1,8 +1,11 @@
 "use client";
 
-import React from "react";
-import { Plane } from "lucide-react";
+import React, { useState } from "react";
+import { Plane, PlaneTakeoff, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Drawer } from "antd";
+import { FaPlane } from "react-icons/fa";
 
 export interface Flight {
   id: string;
@@ -106,15 +109,137 @@ const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
             One Way for {flight.totalTravelers} traveller(s)
           </div>
           <Button
-            onClick={() => onDetailsClick(flight.id)}
+            onClick={() => setOpen(true)}
             className="bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold px-6 py-2 rounded-lg w-full"
           >
             Flight Details
           </Button>
+
+          <Drawer
+            width={420}
+            placement="right"
+            closable={false}
+            onClose={() => setOpen(false)}
+            open={open}
+            classNames={{
+              mask: "bg-black/50",
+              body: "p-0",
+            }}
+            headerStyle={{ display: "none" }}
+          >
+            <div className="bg-white h-full flex flex-col">
+              {/* Header with Title and Close Icon */}
+              <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-200">
+                <h2 className="text-2xl font-semibold text-gray-900">
+                  Review fare to London
+                </h2>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  aria-label="Close drawer"
+                >
+                  <X className="w-6 h-6 text-gray-600" />
+                </button>
+              </div>
+
+              {/* Scrollable Content */}
+              <div className="flex-1 overflow-y-auto px-6 py-6">
+                {/* Airline Header */}
+                <div className="bg-gray-50 rounded-xl p-4 mb-8">
+                  <div className="flex items-center gap-4">
+                    <img
+                      src="/british_airways.png" 
+                      alt="British Airways"
+                      className="w-16 h-16 object-contain"
+                    />
+                    <div>
+                      <div className="font-medium text-gray-800">
+                        British AIR
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        VQ-931 • Economy (B)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between mb-10">
+                  
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-gray-900">ABJ</div>
+                    <div className="text-2xl text-gray-700 mt-1">15:50</div>
+                    <div className="text-sm text-gray-500 mt-2">
+                      Thu 04 Dec
+                      <br />
+                      Dhaka
+                    </div>
+                  </div>
+
+             
+                  <div className="flex-1 mx-2 relative">
+                    
+                    <div className="text-center mt-4">
+                      <div className="font-semibold text-gray-900">12h 5m</div>
+                      <div className="flex items-center w-full ">
+                      
+                        <FaPlane className="text-4xl bg-yellow-400 rounded-full p-2" />
+
+                  
+                        <div className="flex-1 h-1.5 bg-yellow-400"></div>
+
+               
+                        <div className="h-6 w-6 rounded-full bg-yellow-400"></div>
+                      </div>
+
+                      <div className="text-sm text-gray-600">Non-Stop</div>
+                    </div>
+                  </div>
+
+                 
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-gray-900">LND</div>
+                    <div className="text-2xl text-gray-700 mt-1">16:55</div>
+                    <div className="text-sm text-gray-500 mt-2">
+                      Wed 08 Dec
+                      <br />
+                      Dhaka
+                    </div>
+                  </div>
+                </div>
+
+                {/* Flight Details */}
+                <div className="space-y-4 text-base">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Aircraft</span>
+                    <span className="font-medium text-gray-900">
+                      Airbus A350-1000
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Cabin</span>
+                    <span className="font-medium text-gray-900">Economy</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Distance</span>
+                    <span className="font-medium text-gray-900">5012 km</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Fixed Button */}
+              <div className="px-6 pb-8 pt-4 bg-white border-t border-gray-200">
+                <Button className="w-full bg-yellow-400 hover:bg-yellow-600 text-gray-600 font-bold text-lg py-7 rounded-xl shadow-lg">
+                  See Fares
+                </Button>
+              </div>
+            </div>
+          </Drawer>
         </div>
       )}
     </div>
   );
+
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 mb-4 hover:shadow-lg transition-shadow">
