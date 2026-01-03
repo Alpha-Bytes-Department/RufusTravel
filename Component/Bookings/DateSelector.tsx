@@ -23,7 +23,7 @@ const DateSelector = ({
 }: DateSelectorProps) => {
   return (
     <div className="mb-6 overflow-x-auto">
-      <div className="flex gap-3 min-w-max pb-2">
+      <div className="flex gap-3 lg:ml-88 pb-2 ">
         {dates.map((dateOption, index) => {
           const dateString = `${dateOption.date} ${dateOption.month}`;
           const isSelected = selectedDate === dateString;
@@ -37,7 +37,7 @@ const DateSelector = ({
               )}
               <button
                 onClick={() => onDateSelect(dateString)}
-                className={`flex flex-col items-center p-4 rounded-xl border-2 transition-all min-w-[90px] ${
+                className={`flex flex-col items-center px-14 py-6 rounded-xl border-2 transition-all min-w-[90px] ${
                   isSelected
                     ? "border-yellow-400 bg-yellow-50"
                     : dateOption.isBestPrice
