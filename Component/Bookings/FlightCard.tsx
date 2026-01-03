@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Drawer } from "antd";
 import { FaPlane } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 export interface Flight {
   id: string;
@@ -41,6 +42,12 @@ interface FlightCardProps {
 }
 
 const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
+
+  const router = useRouter();
+
+
+
+
   const renderFlightSegment = (segment: Flight, isReturn: boolean = false) => (
     <div className="flex items-center justify-between py-4">
       {/* Airline Logo */}
@@ -128,7 +135,7 @@ const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
             headerStyle={{ display: "none" }}
           >
             <div className="bg-white h-full flex flex-col">
-              {/* Header with Title and Close Icon */}
+              {/* Header */}
               <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-200">
                 <h2 className="text-2xl font-semibold text-gray-900">
                   Review fare to London
@@ -148,7 +155,7 @@ const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
                 <div className="bg-gray-50 rounded-xl p-4 mb-8">
                   <div className="flex items-center gap-4">
                     <img
-                      src="/british_airways.png" 
+                      src="/british_airways.png"
                       alt="British Airways"
                       className="w-16 h-16 object-contain"
                     />
@@ -163,8 +170,8 @@ const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
                   </div>
                 </div>
 
+                {/* Flight Timeline */}
                 <div className="flex items-center justify-between mb-10">
-                  
                   <div className="text-center">
                     <div className="text-3xl font-bold text-gray-900">ABJ</div>
                     <div className="text-2xl text-gray-700 mt-1">15:50</div>
@@ -175,27 +182,18 @@ const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
                     </div>
                   </div>
 
-             
                   <div className="flex-1 mx-2 relative">
-                    
                     <div className="text-center mt-4">
                       <div className="font-semibold text-gray-900">12h 5m</div>
-                      <div className="flex items-center w-full ">
-                      
+                      <div className="flex items-center w-full">
                         <FaPlane className="text-4xl bg-yellow-400 rounded-full p-2" />
-
-                  
                         <div className="flex-1 h-1.5 bg-yellow-400"></div>
-
-               
                         <div className="h-6 w-6 rounded-full bg-yellow-400"></div>
                       </div>
-
                       <div className="text-sm text-gray-600">Non-Stop</div>
                     </div>
                   </div>
 
-                 
                   <div className="text-center">
                     <div className="text-3xl font-bold text-gray-900">LND</div>
                     <div className="text-2xl text-gray-700 mt-1">16:55</div>
@@ -224,11 +222,9 @@ const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
                     <span className="font-medium text-gray-900">5012 km</span>
                   </div>
                 </div>
-              </div>
 
-              {/* Bottom Fixed Button */}
-              <div className="px-6 pb-8 pt-4 bg-white border-t border-gray-200">
-                <Button className="w-full bg-yellow-400 hover:bg-yellow-600 text-gray-600 font-bold text-lg py-7 rounded-xl shadow-lg">
+                {/* ✅ Button moved here */}
+                <Button onClick={()=> router.push("bookings/checkout")} className="mt-6 w-full bg-yellow-400 hover:bg-yellow-600 text-gray-600 font-bold text-lg py-7 rounded-xl shadow-lg">
                   See Fares
                 </Button>
               </div>

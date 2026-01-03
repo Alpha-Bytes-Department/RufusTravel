@@ -51,6 +51,11 @@ body {
   background: white;
 }
 
+.slider-btn {
+  @apply absolute top-1/2 -translate-y-1/2 bg-white/80 p-1 rounded-full;
+}
+
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
