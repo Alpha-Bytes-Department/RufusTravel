@@ -40,7 +40,7 @@ const NavBar = () => {
 
   return (
     <nav className="sticky top-0 z-50  shadow-md bg-amber-50">
-      <div className="mx-auto max-w-[80vw] px-4 ">
+      <div className="mx-auto lg:max-w-[80vw] max-w-[95vw] px-4 ">
         <div className="flex h-16 items-center justify-between md:h-20">
           {/* ===============================Logo Section============================== */}
           <div className="shrink-0">

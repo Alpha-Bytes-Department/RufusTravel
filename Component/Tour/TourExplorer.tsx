@@ -491,7 +491,7 @@ const TourExplorer = () => {
 
   // ===============================Render==============================
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen ">
       {/* ============================= Search Bar Section ============================= */}
       <TourSearchBar
         searchQuery={filters.searchQuery}
@@ -507,47 +507,53 @@ const TourExplorer = () => {
       />
 
       {/* ============================= Main Content Area ============================= */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Results Header */}
-        <TourResultsHeader
-          totalResults={filteredTours.length}
-          displayedResults={paginatedTours.length}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          sortBy={filters.sortBy}
-          onSortChange={handleSortChange}
-        />
+      <div className="lg:max-w-[80vw] max-w-[95vw] mx-auto px-4 sm:px-4 lg:px-4 py-6">
+        <div className="flex gap-6">
+          {" "}
+          {/* ============================= Desktop Filter Sidebar ============================= */}
+          <TourFilterSidebar
+            isOpen={isSidebarOpen}
+            filters={filters}
+            onClose={() => setIsSidebarOpen(false)}
+            onSortChange={handleSortChange}
+            onDurationToggle={handleDurationToggle}
+            onStarRatingToggle={handleStarRatingToggle}
+            onPriceRangeChange={handlePriceRangeChange}
+            onResetFilters={handleResetFilters}
+          />
+          {/* Main Content */}
+          <div className="flex-1 min-w-0">
+            {/* Results Header */}
+            <TourResultsHeader
+              totalResults={filteredTours.length}
+              displayedResults={paginatedTours.length}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              sortBy={filters.sortBy}
+              onSortChange={handleSortChange}
+              showSortDropdown={!isSidebarOpen}
+            />
 
-        {/* ============================= Tour Grid ============================= */}
-        {paginatedTours.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {paginatedTours.map((tour) => (
-              <TourCard key={tour.id} tour={tour} />
-            ))}
+            {/* ============================= Tour Grid ============================= */}
+            {paginatedTours.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                {paginatedTours.map((tour) => (
+                  <TourCard key={tour.id} tour={tour} />
+                ))}
+              </div>
+            ) : (
+              <TourEmptyState onReset={handleResetFilters} />
+            )}
+
+            {/* ============================= Pagination ============================= */}
+            <TourPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
           </div>
-        ) : (
-          <TourEmptyState onReset={handleResetFilters} />
-        )}
-
-        {/* ============================= Pagination ============================= */}
-        <TourPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
+        </div>
       </div>
-
-      {/* ============================= Filter Sidebar ============================= */}
-      <TourFilterSidebar
-        isOpen={isSidebarOpen}
-        filters={filters}
-        onClose={() => setIsSidebarOpen(false)}
-        onSortChange={handleSortChange}
-        onDurationToggle={handleDurationToggle}
-        onStarRatingToggle={handleStarRatingToggle}
-        onPriceRangeChange={handlePriceRangeChange}
-        onResetFilters={handleResetFilters}
-      />
     </div>
   );
 };

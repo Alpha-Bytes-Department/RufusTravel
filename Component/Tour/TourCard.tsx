@@ -23,7 +23,7 @@ const TourCard = ({ tour, onClick }: TourCardProps) => {
           alt={tour.title}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
         />
-        <div className="absolute top-3 right-3 bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-medium">
+        <div className="absolute top-3 right-3 bg-yellow-50 text-gray-500 px-3 py-1 rounded-lg text-sm font-medium">
           {tour.category}
         </div>
       </div>
@@ -59,7 +59,7 @@ const TourCard = ({ tour, onClick }: TourCardProps) => {
         <div className="flex items-center justify-between pt-3 border-t border-gray-200">
           <div>
             <span className="text-2xl font-bold text-gray-900">
-              ৳{tour.price.toLocaleString()}
+              ${tour.price.toLocaleString()}
             </span>
             <span className="text-gray-600 text-sm"> /person</span>
           </div>
