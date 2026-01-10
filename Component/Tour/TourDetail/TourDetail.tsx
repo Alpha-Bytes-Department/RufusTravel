@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   IoHeartOutline,
   IoShareSocialOutline,
@@ -12,6 +13,9 @@ import TourInfoCards from "./TourInfoCards";
 import TourBookingCard from "./TourBookingCard";
 import TourTabs from "./TourTabs";
 import TourOverview from "./TourOverview";
+import TourWhatsIncluded from "./TourWhatsIncluded";
+import TourItinerary from "./TourItinerary";
+import TourReviews from "./TourReviews";
 import RelatedTours from "./RelatedTours";
 import type {
   TourDetail as TourDetailType,
@@ -21,6 +25,9 @@ import type { Tour } from "@/Types/Tour/Tour.types";
 import {
   SAMPLE_TOUR_DETAIL,
   SAMPLE_RELATED_TOURS,
+  SAMPLE_INCLUDED_ITEMS,
+  SAMPLE_ITINERARY,
+  SAMPLE_REVIEWS,
 } from "@/public/SampleTourDetail";
 
 // ===============================Props Interface==============================
@@ -34,18 +41,31 @@ const TourDetail = ({ tour, relatedTours }: TourDetailProps) => {
   // ===============================Dummy Data (will be replaced by props from backend)==============================
   const tourData = tour || SAMPLE_TOUR_DETAIL;
   const relatedToursData = relatedTours || SAMPLE_RELATED_TOURS;
+  const router = useRouter();
+
   // ===============================State Management==============================
   const [activeTab, setActiveTab] = useState<TourTab>("Overview");
   const [isFavorite, setIsFavorite] = useState(false);
 
   // ===============================Event Handlers==============================
-  const handleBookNow = (emailAddress: string, numberOfGuests: number) => {
-    console.log("Booking:", {
-      emailAddress,
-      numberOfGuests,
+  const handleBookNow = (data: {
+    journeyDate: Date;
+    numberOfGuests: number;
+  }) => {
+    // Navigate to booking page with tour data
+    const bookingData = {
       tourId: tourData.id,
-    });
-    // TODO: Implement booking logic
+      tourTitle: tourData.title,
+      tourImage: tourData.images[0],
+      price: tourData.price,
+      currency: tourData.currency,
+      journeyDate: data.journeyDate.toISOString(),
+      numberOfGuests: data.numberOfGuests,
+    };
+
+    // Store in sessionStorage to pass to booking page
+    sessionStorage.setItem("bookingData", JSON.stringify(bookingData));
+    router.push(`/tour/booking/${tourData.id}`);
   };
 
   const handleContactProvider = () => {
@@ -157,25 +177,26 @@ const TourDetail = ({ tour, relatedTours }: TourDetailProps) => {
               />
             )}
             {activeTab === "Itinerary" && (
-              <div className="text-gray-600">
-                Itinerary content coming soon...
-              </div>
+              <TourItinerary items={SAMPLE_ITINERARY} />
             )}
             {activeTab === "What's included" && (
-              <div className="text-gray-600">
-                What's included content coming soon...
-              </div>
+              <TourWhatsIncluded items={SAMPLE_INCLUDED_ITEMS} />
             )}
             {activeTab === "Reviews" && (
-              <div className="text-gray-600">
-                Reviews content coming soon...
-              </div>
+              <TourReviews
+                reviews={SAMPLE_REVIEWS}
+                averageRating={tourData.rating}
+                totalReviews={tourData.reviewCount}
+              />
             )}
           </div>
 
           {/* Right Column - Booking Card */}
           <div className="lg:col-span-1">
             <TourBookingCard
+              tourId={tourData.id}
+              tourTitle={tourData.title}
+              tourImage={tourData.images[0]}
               price={tourData.price}
               currency={tourData.currency}
               groupDiscount={tourData.groupDiscount}

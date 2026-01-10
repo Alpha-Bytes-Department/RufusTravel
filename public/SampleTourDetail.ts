@@ -1,4 +1,9 @@
-import type { TourDetail } from "@/Types/Tour/TourDetail.types";
+import type {
+  TourDetail,
+  IncludedItem,
+  ItineraryItem,
+  TourReview,
+} from "@/Types/Tour/TourDetail.types";
 import type { Tour } from "@/Types/Tour/Tour.types";
 
 // ===============================Sample Tour Detail Data==============================
@@ -101,5 +106,79 @@ export const SAMPLE_RELATED_TOURS: Tour[] = [
       days: 4,
       nights: 3,
     },
+  },
+];
+
+// ===============================Sample What's Included==============================
+export const SAMPLE_INCLUDED_ITEMS: IncludedItem[] = [
+  { id: "i1", text: "Expert heritage guide", included: true },
+  { id: "i2", text: "All entry fees", included: true },
+  { id: "i3", text: "Street food samples", included: true },
+  { id: "i4", text: "Rickshaw rides", included: true },
+  { id: "i5", text: "Bottled water", included: true },
+  { id: "i6", text: "Lunch (recommendations provided)", included: false },
+  { id: "i7", text: "Personal shopping", included: false },
+  { id: "i8", text: "Transportation to meeting point", included: false },
+];
+
+// ===============================Sample Itinerary==============================
+export const SAMPLE_ITINERARY: ItineraryItem[] = [
+  {
+    id: "it1",
+    title: "Full Day Heritage Tour",
+    description:
+      "9 AM start at Sadarghat River Port. Visit Ahsan Manzil, Armenian Church, Lalbagh Fort. Lunch break. Explore Shankhari Bazar, Tanti Bazar. Street food tasting. Evening boat ride on Buriganga River. End by 5 PM.",
+  },
+];
+
+// ===============================Sample Reviews==============================
+export const SAMPLE_REVIEWS: TourReview[] = [
+  {
+    id: "r1",
+    customerName: "Ahmed Rahman",
+    date: "15/11/2025",
+    rating: 5,
+    comment:
+      "Absolutely amazing experience! The guide was knowledgeable and the sights were breathtaking.",
+  },
+  {
+    id: "r2",
+    customerName: "Fatima Khan",
+    date: "10/11/2024",
+    rating: 5,
+    comment:
+      "Great tour overall. Well organized and good value for money. Would recommend!",
+  },
+  {
+    id: "r3",
+    customerName: "Imran Hossain",
+    date: "05/11/2024",
+    rating: 5,
+    comment:
+      "One of the best tours I've taken. Everything was perfect from start to finish.",
+  },
+  {
+    id: "r4",
+    customerName: "Nusrat Jahan",
+    date: "28/10/2024",
+    rating: 4,
+    comment:
+      "Very informative tour. The guide was friendly and made the experience memorable.",
+  },
+  {
+    id: "r5",
+    customerName: "Karim Ali",
+    date: "20/10/2024",
+    rating: 5,
+    comment:
+      "Excellent tour with stunning views. The street food tasting was a highlight!",
+  },
+  {
+    id: "r6",
+    customerName: "Shamima Begum",
+    date: "15/10/2024",
+    rating: 4,
+    comment:
+      "Really enjoyed the cultural insights. The heritage sites were fascinating.",
   },
 ];

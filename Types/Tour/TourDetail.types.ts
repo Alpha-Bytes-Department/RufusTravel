@@ -91,3 +91,36 @@ export interface CustomerSupportInfo {
   instantConfirmation: boolean;
   customerSupport: string;
 }
+
+/**
+ * Tour review interface
+ * Customer review for a tour
+ */
+export interface TourReview {
+  id: string;
+  customerName: string;
+  date: string;
+  rating: number;
+  comment: string;
+}
+
+/**
+ * Included item interface
+ * Item that is included or not included in the tour
+ */
+export interface IncludedItem {
+  id: string;
+  text: string;
+  included: boolean;
+}
+
+/**
+ * Itinerary item interface
+ * Single item/activity in the tour itinerary
+ */
+export interface ItineraryItem {
+  id: string;
+  time?: string;
+  title: string;
+  description: string;
+}
