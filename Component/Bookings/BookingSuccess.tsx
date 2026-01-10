@@ -1,7 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
+import ETicket from "./ETicket";
 
 // ===============================Props Interface==============================
 interface BookingSuccessProps {
@@ -11,16 +13,25 @@ interface BookingSuccessProps {
 // ===============================Component==============================
 const BookingSuccess = ({ bookingId }: BookingSuccessProps) => {
   const router = useRouter();
+  const [showETicket, setShowETicket] = useState(false);
 
   // ===============================Event Handlers==============================
   const handleViewTicket = () => {
-    // TODO: Navigate to ticket/booking details page
-    console.log("View ticket:", bookingId);
+    setShowETicket(true);
+  };
+
+  const handleCloseTicket = () => {
+    setShowETicket(false);
   };
 
   const handleGoHome = () => {
     router.push("/");
   };
+
+  // ===============================Show E-Ticket==============================
+  if (showETicket) {
+    return <ETicket onClose={handleCloseTicket} />;
+  }
 
   return (
     <div className="flex items-center justify-center min-h-[60vh]">

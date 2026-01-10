@@ -49,6 +49,17 @@ const TourBooking = () => {
   const handleContinue = () => {
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
+    } else if (currentStep === 3) {
+      // Save booking details for e-ticket
+      const bookingDetails = {
+        bookingId: `BK-${Date.now()}`,
+        selectedAddOns: selectedAddOns,
+        addOnsTotal: calculateAddOnsTotal(),
+        paymentMethod: paymentMethod,
+        discount: discount,
+        promoCode: promoCode,
+      };
+      sessionStorage.setItem("bookingDetails", JSON.stringify(bookingDetails));
     }
   };
 

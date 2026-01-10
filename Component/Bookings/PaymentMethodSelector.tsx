@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { SiPaypal, SiStripe } from "react-icons/si";
-import { IoWalletOutline } from "react-icons/io5";
+import { TbBrandCoinbase, TbStack3 } from "react-icons/tb";
 import type { PaymentMethod } from "@/Types/Booking/Booking.types";
 
 // ===============================Props Interface==============================
@@ -35,12 +35,12 @@ const PaymentMethodSelector = ({
     {
       id: "paystack" as PaymentMethod,
       name: "Paystack",
-      icon: <IoWalletOutline className="text-3xl text-cyan-600" />,
+      icon: <TbStack3 className="text-3xl text-cyan-600" />,
     },
     {
       id: "coinbase" as PaymentMethod,
       name: "Coinbase Commerce",
-      icon: <IoWalletOutline className="text-3xl text-blue-500" />,
+      icon: <TbBrandCoinbase className="text-3xl text-blue-500" />,
     },
   ];
 
