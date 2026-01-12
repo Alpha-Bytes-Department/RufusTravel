@@ -4,6 +4,7 @@
 import React from "react";
 import { FaPlane } from "react-icons/fa";
 import { RiContactsBook3Fill } from "react-icons/ri";
+import ConfirmPassengerPopup from "./ConfirmPassengerPopup";
 
 const PassengerForm = () => {
   return (
@@ -234,9 +235,7 @@ const PassengerForm = () => {
 
             {/* Continue Button */}
             <div className="p-5 border-t">
-              <button className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-3 rounded-2xl transition text-2xl">
-                Continue
-              </button>
+              <ConfirmPassengerPopup/>
             </div>
           </div>
         </div>

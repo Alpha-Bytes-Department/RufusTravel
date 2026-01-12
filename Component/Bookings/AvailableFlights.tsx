@@ -282,7 +282,7 @@ const FlightCard = ({ flight }: { flight: Flight }) => {
 
           <button
             onClick={handleBookFlight}
-            className="mt-4 w-full bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-3 rounded-lg transition"
+            className="mt-4 w-full bg-yellow-600 hover:bg-yellow-600 text-white font-medium py-3 rounded-lg transition"
           >
             Book Flight
           </button>
