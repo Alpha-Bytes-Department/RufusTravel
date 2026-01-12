@@ -5,6 +5,7 @@ import { FaPlane } from "react-icons/fa";
 
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
 import { useState } from "react";
+import AvailableFlights from "./AvailableFlights";
 
 
 const Checkout: React.FC = () => {
@@ -167,6 +168,7 @@ const Checkout: React.FC = () => {
         </div>
       </div>
       {/*Available Flight: add the code here:*/}
+      <AvailableFlights/>
     </div>
   );
 };
