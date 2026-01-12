@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import SearchBar from "./SearchBar";
 import FilterSidebar from "./FilterSidebar";
 import ResultsHeader from "./ResultsHeader";
@@ -200,6 +201,7 @@ const sampleTours: Tour[] = [
 ];
 
 const Explore = () => {
+  const router = useRouter();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState("Recommended");
   const [currentPage, setCurrentPage] = useState(1);
@@ -219,16 +221,39 @@ const Explore = () => {
   const handleSearch = (query: string, type: string) => {
     setSearchQuery(query.toLowerCase());
     setSearchType(type);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const handleFilterChange = (newFilters: FilterState) => {
     setFilters(newFilters);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const handleBookNow = (id: string) => {
-    console.log("Book now:", id);
+    // Find the tour by id
+    const tour = sampleTours.find((t) => t.id === id);
+    if (!tour) return;
+
+    // Prepare booking data
+    const bookingData = {
+      tourId: tour.id,
+      tourTitle: tour.title,
+      tourImage: tour.image,
+      price: tour.price,
+      currency: "BDT",
+      category: tour.badge.text,
+      location: tour.location,
+      rating: tour.rating,
+      reviewCount: tour.reviewCount,
+      numberOfGuests: 1,
+      journeyDate: new Date().toISOString(),
+    };
+
+    // Store in sessionStorage
+    sessionStorage.setItem("bookingData", JSON.stringify(bookingData));
+
+    // Navigate to booking page
+    router.push(`/tour/booking/${tour.id}`);
   };
 
   const filteredAndSortedTours = useMemo(() => {
@@ -315,7 +340,7 @@ const Explore = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-6">
+      <div className="max-w-[95vw] lg:max-w-[80vw] mx-auto px-4 py-6 space-y-6">
         <SearchBar onSearch={handleSearch} />
 
         <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6">
@@ -328,7 +353,7 @@ const Explore = () => {
 
           <button
             onClick={() => setShowMobileFilter(!showMobileFilter)}
-            className="lg:hidden fixed bottom-6 right-6 z-50 bg-yellow-400 text-gray-900 p-4 rounded-full shadow-lg flex items-center gap-2 font-semibold"
+            className="lg:hidden fixed bottom-6 left-6 z-50 bg-yellow-400 text-gray-900 p-4 rounded-full shadow-lg flex items-center gap-2 font-semibold hover:bg-yellow-500 transition-colors"
           >
             <svg
               width="20"
@@ -342,30 +367,64 @@ const Explore = () => {
               <line x1="4" y1="12" x2="16" y2="12" />
               <line x1="4" y1="18" x2="16" y2="18" />
               <circle cx="19" cy="6" r="2" />
-              <circle cx="19" cy="12" r="2" />
+              <circle cx="9" cy="12" r="2" />
               <circle cx="19" cy="18" r="2" />
             </svg>
             Filters
           </button>
 
-          {showMobileFilter && (
-            <div className="lg:hidden fixed inset-0 z-50 bg-black/50">
-              <div className="absolute right-0 top-0 h-full w-full max-w-sm bg-white overflow-y-auto">
-                <div className="p-4">
+          {/* Mobile Filter Sidebar - Slide from Left */}
+          <div
+            className={`lg:hidden fixed inset-0 z-50 transition-opacity duration-300 ${
+              showMobileFilter
+                ? "opacity-100 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            }`}
+          >
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-black/50"
+              onClick={() => setShowMobileFilter(false)}
+            />
+
+            {/* Sidebar */}
+            <div
+              className={`absolute left-0 top-0 h-full w-full max-w-sm bg-white shadow-2xl overflow-y-auto transform transition-transform duration-300 ease-in-out ${
+                showMobileFilter ? "translate-x-0" : "-translate-x-full"
+              }`}
+            >
+              {/* Sticky Header with Close Button */}
+              <div className="sticky top-0 z-10 bg-white border-b border-gray-200 p-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-bold text-gray-900">Filters</h2>
                   <button
                     onClick={() => setShowMobileFilter(false)}
-                    className="mb-4 text-gray-600 hover:text-gray-900"
+                    className="text-gray-600 hover:text-gray-900 p-2 hover:bg-gray-100 rounded-full transition-colors"
                   >
-                    ✕ Close
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
                   </button>
-                  <FilterSidebar
-                    onFilterChange={handleFilterChange}
-                    tours={filteredAndSortedTours}
-                  />
                 </div>
               </div>
+
+              {/* Filter Content */}
+              <div className="p-4">
+                <FilterSidebar
+                  onFilterChange={handleFilterChange}
+                  tours={filteredAndSortedTours}
+                />
+              </div>
             </div>
-          )}
+          </div>
 
           <main className="space-y-6">
             <ResultsHeader

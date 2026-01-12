@@ -28,7 +28,7 @@ const Footer = () => {
   return (
     <footer className="bg-[#3A3A3A] text-white">
       {/* ===============================Main Footer Content============================== */}
-      <div className="mx-auto max-w-[80vw] px-4 py-4 lg:py-12">
+      <div className="mx-auto lg:max-w-[80vw] max-w-[95vw] px-4 py-4 lg:py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* ===============================Brand Section============================== */}
           <div className="space-y-4 md:col-span-2 lg:col-span-1">

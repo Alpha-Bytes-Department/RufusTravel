@@ -39,8 +39,8 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 border-b bg-white shadow-sm">
-      <div className="mx-auto max-w-[80vw] px-4 ">
+    <nav className="sticky top-0 z-50  shadow-md bg-amber-50">
+      <div className="mx-auto lg:max-w-[80vw] max-w-[95vw] px-4 ">
         <div className="flex h-16 items-center justify-between md:h-20">
           {/* ===============================Logo Section============================== */}
           <div className="shrink-0">
@@ -88,7 +88,7 @@ const NavBar = () => {
             <Link href="/signin">
               <Button
                 variant="outline"
-                className="h-10 rounded-full border-yellow-500 px-6 text-yellow-600 hover:bg-yellow-50"
+                className="h-10 rounded-lg border-yellow-500 px-6 bg-amber-50 text-yellow-600 hover:bg-amber-50"
               >
                 Login
               </Button>
@@ -96,7 +96,7 @@ const NavBar = () => {
 
             {/* ===============================Sign Up Button============================== */}
             <Link href="/signup">
-              <Button className="h-10 rounded-full bg-yellow-500 px-6 text-gray-900 hover:bg-yellow-600">
+              <Button className="h-10 rounded-lg bg-yellow-500 px-6 text-gray-900 hover:bg-yellow-600">
                 Sign Up
               </Button>
             </Link>

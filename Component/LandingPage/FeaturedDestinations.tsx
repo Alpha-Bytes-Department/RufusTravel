@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Heart, Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const destinations = [
   {
@@ -229,9 +229,9 @@ const GalleryCard: React.FC<GalleryCardProps> = ({
 
       {/* ---Explore Button (on hover)--- */}
       <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        <Button className="bg-white text-gray-900 transition-all hover:bg-gray-100">
+        <Link href="./tour" className="bg-white px-2 rounded-lg py-1 text-gray-900 transition-all hover:bg-gray-100">
           Explore
-        </Button>
+        </Link>
       </div>
     </div>
   );
