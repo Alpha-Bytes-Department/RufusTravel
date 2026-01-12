@@ -18,7 +18,7 @@ import {
   IoStorefrontOutline,
   IoChatbubbleEllipsesOutline,
 } from "react-icons/io5";
-import { GiDiamondTrophy } from "react-icons/gi";
+import { GiBigDiamondRing, GiDiamondTrophy } from "react-icons/gi";
 import { FaStar, FaCrown } from "react-icons/fa";
 import { TbCrown } from "react-icons/tb";
 import {
@@ -28,11 +28,14 @@ import {
   EditProfileFormData,
 } from "@/Types/Profile/Profile.types";
 import EditProfileModal from "./EditProfileModal";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // ===============================Component==============================
 const Profile = () => {
   // ===============================State==============================
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const router = useRouter();
   const [profileData, setProfileData] = useState<ProfileData>({
     name: "Akash Saha",
     email: "akash.saha@example.com",
@@ -56,7 +59,7 @@ const Profile = () => {
     },
     {
       name: "Platinum",
-      icon: <div className="w-8 h-8 rounded-full border-4 border-cyan-500" />,
+      icon: <GiBigDiamondRing className="text-3xl" />,
       color: "bg-cyan-500",
       active: false,
     },
@@ -96,9 +99,7 @@ const Profile = () => {
     // TODO: Add API call to save profile data
   };
 
-  const handleViewRewardDetails = () => {
-    console.log("View reward details clicked");
-  };
+
 
   const handleLogout = () => {
     console.log("Logout clicked");
@@ -161,7 +162,7 @@ const Profile = () => {
     <div className="min-h-screen bg-gray-50 py-6 px-4">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* ===============================Profile Header============================== */}
-        <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl shadow-sm border border-yellow-200 p-6 md:p-8">
+        <div className="bg-linear-to-br from-yellow-50 to-orange-50 rounded-2xl shadow-sm border border-yellow-200 p-6 md:p-8">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:justify-between">
             {/* Profile Info */}
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
@@ -236,12 +237,12 @@ const Profile = () => {
                   {profileData.rewardPoints.toLocaleString()} Points
                 </span>
               </div>
-              <button
-                onClick={handleViewRewardDetails}
+              <Link
+                href="/profile/rewards"
                 className="text-yellow-700 font-medium hover:text-yellow-800 transition-colors underline"
               >
                 View Details
-              </button>
+              </Link>
             </div>
 
             {/* Reward Tiers */}
@@ -252,11 +253,16 @@ const Profile = () => {
                   className="flex flex-col items-center gap-2"
                 >
                   <div
-                    className={`w-16 h-16 rounded-full ${
+                    onClick={() => {
+                      if (tier.active) router.push("/profile/rewards");
+                    }}
+                    className={`w-16 h-16 cursor-pointer rounded-full ${
                       tier.color
                     } flex items-center justify-center text-white shadow-lg ${
-                      tier.active ? "ring-4 ring-yellow-400 scale-110" : ""
-                    } transition-transform`}
+                      tier.active
+                        ? "ring-4  ring-yellow-400 scale-110"
+                        : "hover:shadow-2xl"
+                    } transition-transform duration-300 ease-in-out`}
                   >
                     {tier.icon}
                   </div>
