@@ -6,6 +6,8 @@ import { Search, Calendar, Users, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import DateTimePicker from "./DateTimePicker";
+import { useNavigationState } from "@/Hooks/useNavigationState";
+import { TourSearchState } from "@/Types/Navigation/Navigation.types";
 
 interface TourFormData {
   destination: string;
@@ -41,12 +43,24 @@ const TourSearchForm = () => {
   const guests = watch("guests");
   const tourType = watch("tourType");
 
+  const { navigateWithState } = useNavigationState();
+
   // ===============================Form Submission==============================
   const onSubmit = (data: TourFormData) => {
+    const tourSearchData: TourSearchState = {
+      destination: data.destination,
+      journeyDate: data.journeyDate,
+      guests: data.guests,
+      tourType: data.tourType,
+    };
+
     console.log("Tour Search Submitted:", {
-      ...data,
+      ...tourSearchData,
       timestamp: new Date().toISOString(),
     });
+
+    // Navigate to explore page with tour search data
+    navigateWithState("/explore", tourSearchData);
   };
 
   return (

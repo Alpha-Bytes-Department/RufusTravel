@@ -6,6 +6,8 @@ import { MapPin, Calendar, Users, Search, Hotel, Bed } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import DateTimePicker from "./DateTimePicker";
+import { useNavigationState } from "@/Hooks/useNavigationState";
+import { HotelSearchState } from "@/Types/Navigation/Navigation.types";
 
 interface HotelFormData {
   location: string;
@@ -44,12 +46,28 @@ const HotelSearchForm = () => {
 
   const totalGuests = adults + children + infants;
 
+  const { navigateWithState } = useNavigationState();
+
   // ===============================Form Submission==============================
   const onSubmit = (data: HotelFormData) => {
+    const hotelSearchData: HotelSearchState = {
+      destination: data.location,
+      checkIn: data.checkIn,
+      checkOut: data.checkOut,
+      guests: {
+        adults: data.adults,
+        children: data.children,
+      },
+      rooms: data.rooms,
+    };
+
     console.log("Hotel Search Submitted:", {
-      ...data,
+      ...hotelSearchData,
       timestamp: new Date().toISOString(),
     });
+
+    // Navigate to bookings with hotel search data
+    navigateWithState("/bookings", hotelSearchData);
   };
 
   return (

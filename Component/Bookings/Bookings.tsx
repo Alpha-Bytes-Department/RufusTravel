@@ -5,8 +5,22 @@ import BookingSearchForm from "./BookingSearchForm";
 import DateSelector from "./DateSelector";
 import FlightCard, { FlightCardData } from "./FlightCard";
 import BookingFilterSidebar, { FilterState } from "./BookingFilterSidebar";
+import { useNavigationState } from "@/Hooks/useNavigationState";
+import {
+  FlightSearchState,
+  CarSearchState,
+  TourSearchState,
+  HotelSearchState,
+} from "@/Types/Navigation/Navigation.types";
 
 const Bookings = () => {
+  const { getState } = useNavigationState();
+
+  // Get navigation state (could be flight, car, or hotel search)
+  const searchState = getState<FlightSearchState | CarSearchState | HotelSearchState  | TourSearchState>();
+
+  console.log("Search State:", searchState);
+
   const [selectedDate, setSelectedDate] = useState("19 Dec");
   const [filters, setFilters] = useState<FilterState>({
     stops: [1],
@@ -517,17 +531,14 @@ const Bookings = () => {
 
   return (
     <div className="max-w-[80vw] mx-auto py-8">
-     
       <BookingSearchForm onSearch={handleSearch} />
 
-      
       <DateSelector
         dates={dates}
         selectedDate={selectedDate}
         onDateSelect={setSelectedDate}
       />
 
-      
       <div className="flex gap-6 items-start">
         {/* Filter Sidebar - Hidden on mobile, visible on desktop */}
         <div className="hidden lg:block w-80 shrink-0">

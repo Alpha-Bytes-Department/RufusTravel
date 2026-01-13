@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigationState } from "@/Hooks/useNavigationState";
+import { TourBookingState } from "@/Types/Navigation/Navigation.types";
 import SearchBar from "./SearchBar";
 import FilterSidebar from "./FilterSidebar";
 import ResultsHeader from "./ResultsHeader";
@@ -201,7 +202,7 @@ const sampleTours: Tour[] = [
 ];
 
 const Explore = () => {
-  const router = useRouter();
+  const { navigateWithState } = useNavigationState();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState("Recommended");
   const [currentPage, setCurrentPage] = useState(1);
@@ -235,7 +236,7 @@ const Explore = () => {
     if (!tour) return;
 
     // Prepare booking data
-    const bookingData = {
+    const bookingData: TourBookingState = {
       tourId: tour.id,
       tourTitle: tour.title,
       tourImage: tour.image,
@@ -249,11 +250,8 @@ const Explore = () => {
       journeyDate: new Date().toISOString(),
     };
 
-    // Store in sessionStorage
-    sessionStorage.setItem("bookingData", JSON.stringify(bookingData));
-
-    // Navigate to booking page
-    router.push(`/tour/booking/${tour.id}`);
+    // Navigate with state using the custom hook
+    navigateWithState(`/tour/booking/${tour.id}`, bookingData);
   };
 
   const filteredAndSortedTours = useMemo(() => {

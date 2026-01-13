@@ -10,7 +10,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import DateTimePicker from "./DateTimePicker";
 // import TravelerSelector from "./TravelerSelector";
 import TravelerSelector from "./TravelerSelector";
-
+import { useNavigationState } from "@/Hooks/useNavigationState";
+import { FlightSearchState } from "@/Types/Navigation/Navigation.types";
 
 // TODO: adjust the date and time format
 
@@ -84,7 +85,9 @@ const FlightSearchForm = () => {
     updated[index][field] = value;
     setMultiWaySegments(updated);
   };
-
+  
+  const { navigateWithState } = useNavigationState();
+  
   // ===============================Form Submit Handler==============================
   const onSubmit = (data: FlightFormData) => {
     const submissionData =
@@ -94,6 +97,9 @@ const FlightSearchForm = () => {
       ...submissionData,
       timestamp: new Date().toISOString(),
     });
+
+    // Navigate with state using the custom hook
+    navigateWithState("/bookings", submissionData);
   };
 
   return (
@@ -105,14 +111,8 @@ const FlightSearchForm = () => {
       <RadioGroup
         value={tripType}
         onValueChange={(value) => setValue("tripType", value as any)}
-        className="flex flex-wrap gap-4 bg-[#adb2bd49] text-lg max-w-sm mx-auto justify-center text-white p-4 rounded-lg"
+         className="flex flex-wrap gap-4 bg-[#adb2bd49] text-lg max-w-sm mx-auto justify-center text-white p-4 rounded-lg"
       >
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="oneWay" id="oneWay" />
-          <Label htmlFor="oneWay" className="cursor-pointer font-normal">
-            One Way
-          </Label>
-        </div>
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="roundTrip" id="roundTrip" />
           <Label htmlFor="roundTrip" className="cursor-pointer font-normal">

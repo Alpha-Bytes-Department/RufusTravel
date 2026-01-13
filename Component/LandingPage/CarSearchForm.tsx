@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import DateTimePicker from "./DateTimePicker";
+import { useNavigationState } from "@/Hooks/useNavigationState";
+import { CarSearchState } from "@/Types/Navigation/Navigation.types";
 
 interface CarFormData {
   tripType: "oneWay" | "roundTrip";
@@ -34,12 +36,25 @@ const CarSearchForm = () => {
   const journeyDate = watch("journeyDate");
   const returnDate = watch("returnDate");
 
+  const { navigateWithState } = useNavigationState();
+
   // ===============================Form Submission==============================
   const onSubmit = (data: CarFormData) => {
+    const carSearchData: CarSearchState = {
+      tripType: data.tripType,
+      pickupLocation: data.from,
+      dropoffLocation: data.to,
+      pickupDate: data.journeyDate,
+      dropoffDate: data.returnDate || data.journeyDate,
+    };
+
     console.log("Car Search Submitted:", {
-      ...data,
+      ...carSearchData,
       timestamp: new Date().toISOString(),
     });
+
+    // Navigate to bookings with car search data
+    navigateWithState("/bookings", carSearchData);
   };
 
   return (

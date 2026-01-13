@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 // ===============================Profile Types==============================
 export interface ProfileData {
   name: string;
