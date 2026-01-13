@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 const ConfirmPassengerPopup: React.FC = () => {
   const router = useRouter()
   const [open, setOpen] = useState(false);
-  const [expanded, setExpanded] = useState(true); // default: expanded
+  const [expanded, setExpanded] = useState(true); 
 
   const showDrawer = () => setOpen(true);
   const onClose = () => setOpen(false);
@@ -54,7 +54,7 @@ const ConfirmPassengerPopup: React.FC = () => {
               </span>
             </button>
 
-            {/* Content - shown only when expanded */}
+          
             {expanded && (
               <div className="p-5 pt-1 space-y-4 bg-white">
                 <div>
@@ -84,7 +84,6 @@ const ConfirmPassengerPopup: React.FC = () => {
             )}
           </div>
 
-          {/* You can easily add more passenger sections later */}
         </div>
 
         {/* Confirm button - sticky at bottom */}

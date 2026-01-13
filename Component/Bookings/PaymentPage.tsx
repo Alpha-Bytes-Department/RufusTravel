@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiSolidCoupon } from "react-icons/bi";
 import { FaPaypal } from "react-icons/fa";
@@ -9,6 +10,7 @@ type PaymentMethod = "paypal" | "stripe" | "paystack" | "coinbase" | null;
 const PaymentPage = () => {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(null);
   const [couponCode, setCouponCode] = useState("");
+  const router = useRouter()
 
   const paymentMethods = [
     {
@@ -47,6 +49,7 @@ const PaymentPage = () => {
       alert("Please select a payment method");
       return;
     }
+    router.push("/bookings/checkout/passanger_form/payment/success")
     // TODO: Proceed to payment gateway with selected method
     console.log("Proceeding with:", selectedMethod);
   };
