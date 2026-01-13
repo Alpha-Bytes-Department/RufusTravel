@@ -112,7 +112,7 @@ const Profile = () => {
       id: "bookings",
       label: "Track My Bookings",
       icon: <IoBagCheckOutline className="text-xl text-yellow-600" />,
-      onClick: () => console.log("Track bookings"),
+      onClick: () => router.push("/profile/mybookings"),
     },
     {
       id: "saved",
