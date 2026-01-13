@@ -1,9 +1,12 @@
+"use client"
 import React, { useState } from "react";
 import { Drawer, Button } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 const ConfirmPassengerPopup: React.FC = () => {
+  const router = useRouter()
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(true); // default: expanded
 
@@ -86,7 +89,7 @@ const ConfirmPassengerPopup: React.FC = () => {
 
         {/* Confirm button - sticky at bottom */}
         <div className="sticky bottom-0 left-0 right-0 bg-white pt-6 pb-4 px-1 border-t mt-8">
-          <button
+          <button onClick={()=>router.push("/bookings/checkout/passanger_form/payment")}
             className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-3 rounded-lg transition text-2xl"
           >
             Confirm
