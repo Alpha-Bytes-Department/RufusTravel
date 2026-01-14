@@ -91,7 +91,7 @@ const FlightSearchForm = () => {
   // ===============================Form Submit Handler==============================
   const onSubmit = (data: FlightFormData) => {
     const submissionData =
-      tripType === "multiWay" ? { ...data, segments: multiWaySegments } : data;
+      tripType === "multiWay" ? { ...data, segments: multiWaySegments } :{ ...data, tab: "flight"};
 
     console.log("Flight Search Data:", {
       ...submissionData,

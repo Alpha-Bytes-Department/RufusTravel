@@ -20,6 +20,7 @@ import CarBookingForm from "./CarBookingForm";
 import TourBookingForm from "./TourBookingForm";
 import DateTimePicker from "../LandingPage/DateTimePicker";
 import TravelerSelector from "../LandingPage/TravelerSelector";
+import { useRouter } from "next/navigation";
 
 type TabType = "flight" | "hotels" | "cars" | "tours";
 type TripType = "oneWay" | "roundWay" | "multiWay";
@@ -85,8 +86,8 @@ const BookingSearchForm = ({ onSearch }: BookingSearchFormProps) => {
     { id: "flight" as TabType, label: "Flight", icon: Plane },
     { id: "hotels" as TabType, label: "Hotels", icon: Hotel },
     { id: "cars" as TabType, label: "Cars", icon: Car },
-    { id: "tours" as TabType, label: "Tours", icon: MapPin },
   ];
+  const router = useRouter();
 
   const journeyDate = watch("journeyDate");
   const returnDate = watch("returnDate");
@@ -113,6 +114,14 @@ const BookingSearchForm = ({ onSearch }: BookingSearchFormProps) => {
             </button>
           );
         })}
+        <button
+          onClick={() => router.push("/tour")}
+          className={`flex items-center gap-2 cursor-pointer px-6 py-3 rounded-full font-medium transition-all bg-gray-500 text-white hover:bg-gray-600"
+          `}
+        >
+          <MapPin className="size-5" />
+          Tour
+        </button>
       </div>
 
       {/* ===============================Flight Form============================== */}

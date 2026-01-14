@@ -48,6 +48,7 @@ const TourSearchForm = () => {
   // ===============================Form Submission==============================
   const onSubmit = (data: TourFormData) => {
     const tourSearchData: TourSearchState = {
+      tab: "tour",
       destination: data.destination,
       journeyDate: data.journeyDate,
       guests: data.guests,
@@ -59,8 +60,8 @@ const TourSearchForm = () => {
       timestamp: new Date().toISOString(),
     });
 
-    // Navigate to explore page with tour search data
-    navigateWithState("/explore", tourSearchData);
+    // Navigate to tour page with tour search data
+    navigateWithState("/tour", tourSearchData);
   };
 
   return (
