@@ -41,6 +41,7 @@ const CarSearchForm = () => {
   // ===============================Form Submission==============================
   const onSubmit = (data: CarFormData) => {
     const carSearchData: CarSearchState = {
+      tab: "car",
       tripType: data.tripType,
       pickupLocation: data.from,
       dropoffLocation: data.to,

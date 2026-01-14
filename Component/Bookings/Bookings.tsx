@@ -16,7 +16,6 @@ import {
 const Bookings = () => {
   const { getState } = useNavigationState();
 
-  // Get navigation state (could be flight, car, or hotel search)
   const searchState = getState<FlightSearchState | CarSearchState | HotelSearchState  | TourSearchState>();
 
   console.log("Search State:", searchState);

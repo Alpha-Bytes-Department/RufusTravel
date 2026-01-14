@@ -15,6 +15,7 @@ export interface FlightSearchState {
 }
 
 export interface FlightSegment {
+  tab: "flight";
   from: string;
   to: string;
   date: string;
@@ -22,6 +23,7 @@ export interface FlightSegment {
 
 // ===============================Car Search State==============================
 export interface CarSearchState {
+  tab: "car";
   tripType: "oneWay" | "roundTrip";
   pickupLocation: string;
   dropoffLocation: string;
@@ -33,6 +35,7 @@ export interface CarSearchState {
 
 // ===============================Hotel Search State==============================
 export interface HotelSearchState {
+  tab: "hotel";
   destination: string;
   checkIn: string;
   checkOut: string;
@@ -45,6 +48,7 @@ export interface HotelSearchState {
 
 // ===============================Tour Search State==============================
 export interface TourSearchState {
+  tab: "tour";
   destination: string;
   journeyDate: string;
   guests: number;
