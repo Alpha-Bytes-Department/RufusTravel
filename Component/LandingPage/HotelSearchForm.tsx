@@ -66,8 +66,25 @@ const HotelSearchForm = () => {
       timestamp: new Date().toISOString(),
     });
 
-    // Navigate to bookings with hotel search data
-    navigateWithState("/bookings", hotelSearchData);
+    // ────────────────────────────────────────────────
+    //              Changed only this part
+    // ────────────────────────────────────────────────
+
+    // Using query parameters (most common & flexible approach)
+    const params = new URLSearchParams({
+      destination: (data.location || "").trim(),
+      checkIn: data.checkIn || "",
+      checkOut: data.checkOut || "",
+      adults: data.adults.toString(),
+      children: data.children.toString(),
+      rooms: data.rooms.toString(),
+    });
+
+    // Navigate to hotels page with search parameters in URL
+    navigateWithState(`/hotels?${params.toString()}`, null);
+
+    // Alternative clean version without state (if your hook allows):
+    // navigateWithState(`/hotels?${params.toString()}`);
   };
 
   return (

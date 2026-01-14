@@ -1,12 +1,22 @@
 "use client";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import FiltersSidebar from "@/Component/Hotels/FiltersSidebar";
 import HotelList from "@/Component/Hotels/HotelList";
 import Pagination from "@/Component/Hotels/Pagination";
 import { mockHotels } from "@/lib/utils/mockHotels";
 import { Hotel } from "@/Types/Hotel/hotel";
-import { useEffect, useState } from "react";
+import { MdFlight } from "react-icons/md";
+import { LuHotel } from "react-icons/lu";
+import { IoCarOutline, IoLocationOutline } from "react-icons/io5";
 
 export default function HotelSearchPage() {
+  const router = useRouter();
+  
+  // ──── Add this line ──── (this fixes your error!)
+  const [activeTab, setActiveTab] = useState<"flight" | "hotels" | "cars" | "tours">("hotels");
+
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [filteredHotels, setFilteredHotels] = useState<Hotel[]>([]);
   const [filters, setFilters] = useState({
@@ -21,6 +31,20 @@ export default function HotelSearchPage() {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const hotelsPerPage = 5;
+
+  const handleTabChange = (tab: "flight" | "hotels" | "cars" | "tours") => {
+    if (tab === activeTab) return;
+    setActiveTab(tab);
+    
+    const routes = {
+      flight: "/flights",
+      hotels: "/hotels",
+      cars: "/cars",
+      tours: "/tours",
+    };
+    
+    router.push(routes[tab]);
+  };
 
   useEffect(() => {
     // Simulate API fetch
@@ -65,68 +89,100 @@ export default function HotelSearchPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Top Nav - Match screenshot */}
-      <nav className="flex justify-center space-x-4 bg-white p-4 border-b">
-        <button className="text-gray-600">Flights</button>
-        <button className="text-yellow-500 font-bold">Hotels</button>
-        <button className="text-gray-600">Cars</button>
-        <button className="text-gray-600">Tours</button>
+      {/* Modern pill-style tab navigation – now working perfectly */}
+      <nav className="flex justify-center py-6 bg-white border-b border-gray-200">
+        <div className="inline-flex items-center gap-2 sm:gap-3 bg-gray-100/80 backdrop-blur-sm p-2 rounded-full shadow-sm">
+          <button
+            onClick={() => handleTabChange("flight")}
+            className={`
+              flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-all
+              ${activeTab === 'flight' 
+                ? 'bg-yellow-500 text-gray-900 shadow-md' 
+                : 'text-gray-600 hover:bg-white/60'
+              }
+            `}
+          >
+            <MdFlight className="text-2xl" />
+            Flight
+          </button>
+
+          <button
+            onClick={() => handleTabChange("hotels")}
+            className={`
+              flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-all
+              ${activeTab === 'hotels' 
+                ? 'bg-yellow-500 text-gray-900 shadow-md' 
+                : 'text-gray-600 hover:bg-white/60'
+              }
+            `}
+          >
+            <LuHotel />
+            Hotels
+          </button>
+
+          <button
+            onClick={() => handleTabChange("cars")}
+            className={`
+              flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-all
+              ${activeTab === 'cars' 
+                ? 'bg-yellow-500 text-gray-900 shadow-md' 
+                : 'text-gray-600 hover:bg-white/60'
+              }
+            `}
+          >
+            <IoCarOutline />
+            Cars
+          </button>
+
+          <button
+            onClick={() => handleTabChange("tours")}
+            className={`
+              flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-all
+              ${activeTab === 'tours' 
+                ? 'bg-yellow-500 text-gray-900 shadow-md' 
+                : 'text-gray-600 hover:bg-white/60'
+              }
+            `}
+          >
+           <IoLocationOutline />
+            Tours
+          </button>
+        </div>
       </nav>
 
+      {/* Your existing search bar */}
       <div className="flex items-center justify-center gap-4 p-4 bg-white">
         {/* Check In */}
         <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-[240px]">
-          <svg
-            className="w-6 h-6 text-yellow-600"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
             <rect x="3" y="4" width="18" height="18" rx="2" />
             <line x1="16" y1="2" x2="16" y2="6" />
             <line x1="8" y1="2" x2="8" y2="6" />
           </svg>
           <div>
             <p className="text-xs text-gray-500">Check in</p>
-            <p className="text-sm font-semibold text-yellow-700">
-              Nov 28, 2025
-            </p>
+            <p className="text-sm font-semibold text-yellow-700">Nov 28, 2025</p>
             <p className="text-xs text-gray-500">Friday</p>
           </div>
         </div>
 
         {/* Check Out */}
         <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-[240px]">
-          <svg
-            className="w-6 h-6 text-yellow-600"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
             <rect x="3" y="4" width="18" height="18" rx="2" />
             <line x1="16" y1="2" x2="16" y2="6" />
             <line x1="8" y1="2" x2="8" y2="6" />
           </svg>
           <div>
             <p className="text-xs text-gray-500">Check out</p>
-            <p className="text-sm font-semibold text-yellow-700">
-              Nov 28, 2025
-            </p>
+            <p className="text-sm font-semibold text-yellow-700">Nov 28, 2025</p>
             <p className="text-xs text-gray-500">Friday</p>
           </div>
         </div>
 
         {/* Guests */}
         <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-[200px]">
-          <svg
-            className="w-6 h-6 text-yellow-600"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
             <circle cx="12" cy="7" r="4" />
             <path d="M4 21c0-4 4-7 8-7s8 3 8 7" />
           </svg>
@@ -139,13 +195,7 @@ export default function HotelSearchPage() {
 
         {/* Room */}
         <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-[200px]">
-          <svg
-            className="w-6 h-6 text-yellow-600"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
             <rect x="3" y="10" width="18" height="7" rx="2" />
             <path d="M7 10V7a2 2 0 012-2h6a2 2 0 012 2v3" />
           </svg>
