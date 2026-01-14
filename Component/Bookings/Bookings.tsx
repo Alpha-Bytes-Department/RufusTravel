@@ -13,7 +13,7 @@ import {
   HotelSearchState,
 } from "@/Types/Navigation/Navigation.types";
 
-const Bookings = () => {
+const          Bookings = () => {
   const { getState } = useNavigationState();
 
   // Get navigation state (could be flight, car, or hotel search)

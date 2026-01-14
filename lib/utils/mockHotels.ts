@@ -1,0 +1,66 @@
+import { Hotel } from "@/Types/Hotel/hotel";
+
+
+export const mockHotels: Hotel[] = [
+  {
+    id: 1,
+    name: 'The Fullerton Hotel Singapore',
+    image: '/placeholder/fullerton.jpg', 
+    rating: 5.0,
+    reviews: 11200,
+    description: '5-star hotel located in Singapore. Close to Chinatown Heritage Center and Universal Studios Singapore...',
+    location: 'Fullerton Square',
+    price: 2024,
+  },
+  {
+    id: 2,
+    name: 'Rosewood Mayakoba',
+    image: '/placeholder/rosewood.jpg',
+    rating: 4.5,
+    reviews: 1200,
+    description: 'Descriptive details about the hotel may include the amenities.',
+    location: 'Mayakoba',
+    price: 2024,
+  },
+  {
+    id: 3,
+    name: 'Hotel Emma',
+    image: '/placeholder/emma.jpg',
+    rating: 4.5,
+    reviews: 1200,
+    description: 'Descriptive details about the hotel may include the amenities.',
+    location: 'Emma',
+    price: 2024,
+  },
+  {
+    id: 4,
+    name: 'The Inn at Lost Creek',
+    image: '/placeholder/inn.jpg',
+    rating: 4.5,
+    reviews: 1200,
+    description: 'Descriptive details about the hotel may include the amenities.',
+    location: 'Lost Creek',
+    price: 2024,
+  },
+  {
+    id: 5,
+    name: 'Hotel Acta Azul Barcelona',
+    image: '/card.png',
+    rating: 4.5,
+    reviews: 1200,
+    description: 'Descriptive details about the hotel may include the amenities.',
+    location: 'Barcelona',
+    price: 2024,
+  },
+  
+  ...Array(10).fill(0).map((_, i) => ({
+    id: 6 + i,
+    name: `Hotel ${i + 1}`,
+    image: '/placeholder/generic.jpg',
+    rating: 4.0 + (i % 2),
+    reviews: 1000 + i * 100,
+    description: 'Generic hotel description.',
+    location: 'Generic Location',
+    price: 1000 + i * 100,
+  })),
+];
