@@ -144,6 +144,9 @@ const BookingConfirmationPopup: React.FC = () => {
               View My Journey
             </button>
           </div>
+          <div>
+         
+          </div>
         </div>
       </Drawer>
     </>
