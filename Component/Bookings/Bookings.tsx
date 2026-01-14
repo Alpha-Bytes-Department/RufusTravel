@@ -13,7 +13,7 @@ import {
   HotelSearchState,
 } from "@/Types/Navigation/Navigation.types";
 
-const Bookings = () => {
+const          Bookings = () => {
   const { getState } = useNavigationState();
 
   const searchState = getState<FlightSearchState | CarSearchState | HotelSearchState  | TourSearchState>();
