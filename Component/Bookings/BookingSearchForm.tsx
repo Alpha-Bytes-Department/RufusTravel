@@ -42,10 +42,17 @@ interface BookingSearchFormData {
 
 interface BookingSearchFormProps {
   onSearch: (data: BookingSearchFormData & { tripType: TripType }) => void;
+  activeTab?: TabType;
+  onTabChange?: (tab: TabType) => void;
 }
 
-const BookingSearchForm = ({ onSearch }: BookingSearchFormProps) => {
-  const [activeTab, setActiveTab] = useState<TabType>("flight");
+const BookingSearchForm = ({
+  onSearch,
+  activeTab: externalActiveTab,
+  onTabChange,
+}: BookingSearchFormProps) => {
+  const [internalActiveTab, setInternalActiveTab] = useState<TabType>("flight");
+  const activeTab = externalActiveTab ?? internalActiveTab;
   const [tripType, setTripType] = useState<TripType>("roundWay");
   const [showJourneyPicker, setShowJourneyPicker] = useState(false);
   const [showReturnPicker, setShowReturnPicker] = useState(false);
@@ -102,7 +109,13 @@ const BookingSearchForm = ({ onSearch }: BookingSearchFormProps) => {
           return (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+                if (onTabChange) {
+                  onTabChange(tab.id);
+                } else {
+                  setInternalActiveTab(tab.id);
+                }
+              }}
               className={`flex items-center gap-2 cursor-pointer px-6 py-3 rounded-full font-medium transition-all ${
                 isActive
                   ? "bg-yellow-500 text-gray-900"
