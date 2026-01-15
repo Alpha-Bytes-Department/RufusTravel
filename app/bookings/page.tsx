@@ -1,5 +1,7 @@
-import { Suspense } from "react";
+
 import Bookings from "@/Component/Bookings/Bookings";
+import { Suspense } from "react";
+
 
 const page = () => {
   return (
@@ -14,7 +16,7 @@ const page = () => {
           </div>
         }
       >
-        <Bookings />
+        <Bookings/>
       </Suspense>
     </div>
   );

@@ -6,6 +6,7 @@ import { MapPin, Calendar, Users, Search, Bed } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import Hotels from "./Hotels";
 
 interface HotelFormData {
   location: string;
@@ -241,6 +242,7 @@ const HotelBookingForm = ({ onSearch }: HotelBookingFormProps) => {
           Search
         </Button>
       </div>
+      <Hotels/>
     </form>
   );
 };
