@@ -105,6 +105,7 @@ const CarCheckout = ({
       };
 
       sessionStorage.setItem("carBooking", JSON.stringify(bookingData));
+      setIsProcessing(false);
 
       // Navigate to success page
       router.push("/bookings/checkout/car-success");
@@ -226,7 +227,7 @@ const CarCheckout = ({
 
               <Button
                 onClick={handleProceedToPayment}
-                disabled={!passengerInfo || !paymentMethod || isProcessing}
+                disabled={!passengerInfo || !paymentMethod }
                 className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-6 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isProcessing ? "Processing..." : "Proceed To Payment"}

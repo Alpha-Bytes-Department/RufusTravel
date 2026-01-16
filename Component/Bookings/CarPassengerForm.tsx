@@ -30,10 +30,23 @@ const CarPassengerForm = ({ onSubmit, initialData }: CarPassengerFormProps) => {
    * Handles input change
    */
   const handleChange = (field: keyof CarPassengerInfo, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    const updatedData = { ...formData, [field]: value };
+    setFormData(updatedData);
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
+
+    // Auto-submit when all fields are filled
+    if (
+      updatedData.firstName.trim() &&
+      updatedData.lastName.trim() &&
+      updatedData.email.trim() &&
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(updatedData.email) &&
+      updatedData.phone.trim() &&
+      /^\+?[\d\s-()]+$/.test(updatedData.phone)
+    ) {
+      onSubmit(updatedData);
     }
   };
 

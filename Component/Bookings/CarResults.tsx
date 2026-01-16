@@ -119,9 +119,7 @@ const CarResults = ({ searchData }: CarResultsProps) => {
   }, [SAMPLE_CARS, filters, sortBy]);
 
   // ===============================Paginated Data==============================
-  /**
-   * Paginates filtered results
-   */
+ 
   const paginatedCars = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredCars.slice(startIndex, startIndex + itemsPerPage);
@@ -130,25 +128,19 @@ const CarResults = ({ searchData }: CarResultsProps) => {
   const totalPages = Math.ceil(filteredCars.length / itemsPerPage);
 
   // ===============================Event Handlers==============================
-  /**
-   * Handles filter changes
-   */
+ 
   const handleFilterChange = (newFilters: CarFilterState) => {
     setFilters(newFilters);
     setCurrentPage(1);
   };
 
-  /**
-   * Handles car reservation
-   */
+  
   const handleCarReserve = (car: CarCardData) => {
     setSelectedCar(car);
     setShowBookingSummary(true);
   };
 
-  /**
-   * Handles continuing to checkout
-   */
+  
   const handleContinueToCheckout = () => {
     if (selectedCar) {
       // Store selected car and search data in sessionStorage

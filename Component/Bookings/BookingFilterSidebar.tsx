@@ -84,7 +84,7 @@ const BookingFilterSidebar = ({
       icon: Moon,
     },
     { id: "morning", label: "Morning", time: "05:00-11:59 am", icon: Sunrise },
-    { id: "afternoon", label: "Afternoon", time: "12:00-17:59 cm", icon: Sun },
+    { id: "afternoon", label: "Afternoon", time: "12:00-17:59 am", icon: Sun },
     { id: "evening", label: "Evening", time: "18:00-23:59 am", icon: Cloud },
   ];
 
@@ -103,36 +103,39 @@ const BookingFilterSidebar = ({
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 sticky top-6">
+    <div className="bg-white lg:p-6 sticky top-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold text-gray-900">Filters</h2>
+      <div className="flex items-center justify-between mb-8">
+        <h2 className="text-2xl font-bold text-gray-900">Filters</h2>
         <button
           onClick={handleReset}
-          className="text-yellow-600 font-semibold border-2 border-yellow-600 px-4 py-2 rounded-lg hover:bg-yellow-50 transition-colors"
+          className="text-[#D4A60A] font-bold border-2 border-[#D4A60A] px-6 py-2 rounded-lg hover:bg-yellow-50 transition-colors uppercase text-sm"
         >
           RESET
         </button>
       </div>
 
       {/* STOPS */}
-      <div className="mb-6 pb-6 border-b border-gray-200">
-        <h3 className="font-bold text-gray-900 mb-3 text-sm uppercase">
-          Stops
+      <div className="mb-7 pb-6 border-b border-gray-200">
+        <h3 className="font-bold text-gray-900 mb-5 text-sm uppercase tracking-wide">
+          STOPS
         </h3>
-        <div className="flex gap-6">
+        <div className="flex gap-10">
           {[0, 1, 2].map((stopCount) => (
             <label
               key={stopCount}
-              className="flex items-center gap-2 cursor-pointer"
+              className="flex items-center gap-3 cursor-pointer"
             >
-              <input
-                type="checkbox"
-                checked={stops.includes(stopCount)}
-                onChange={() => toggleArrayValue(stops, setStops, stopCount)}
-                className="size-5 rounded accent-green-500"
-              />
-              <span className="text-gray-700">
+              <div className="relative">
+                <input
+                  type="radio"
+                  name="stops"
+                  checked={stops.includes(stopCount)}
+                  onChange={() => setStops([stopCount])}
+                  className="appearance-none size-6 rounded-full border-2 border-gray-400 checked:border-[#22C55E] checked:border-[7px] cursor-pointer transition-all bg-white"
+                />
+              </div>
+              <span className="text-gray-900 font-normal text-base">
                 {stopCount === 2 ? "2+" : stopCount}
               </span>
             </label>
@@ -141,11 +144,11 @@ const BookingFilterSidebar = ({
       </div>
 
       {/* AIRLINES */}
-      <div className="mb-6 pb-6 border-b border-gray-200">
-        <h3 className="font-bold text-gray-900 mb-3 text-sm uppercase">
-          Airlines
+      <div className="mb-7 pb-6 border-b border-gray-200">
+        <h3 className="font-bold text-gray-900 mb-5 text-sm uppercase tracking-wide">
+          AIRLINES
         </h3>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {[
             "All",
             "British Air Lines",
@@ -155,45 +158,67 @@ const BookingFilterSidebar = ({
           ].map((airline) => (
             <label
               key={airline}
-              className="flex items-center gap-2 cursor-pointer"
+              className="flex items-center gap-3 cursor-pointer group"
             >
-              <input
-                type="checkbox"
-                checked={airlines.includes(airline)}
-                onChange={() =>
-                  toggleArrayValue(airlines, setAirlines, airline)
-                }
-                className="size-5 rounded accent-green-500"
-              />
-              <span className="text-gray-700">{airline}</span>
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  checked={airlines.includes(airline)}
+                  onChange={() =>
+                    toggleArrayValue(airlines, setAirlines, airline)
+                  }
+                  className="appearance-none size-5 rounded border-2 border-gray-400 checked:bg-[#22C55E] checked:border-[#22C55E] cursor-pointer transition-all"
+                />
+                {airlines.includes(airline) && (
+                  <svg
+                    className="absolute inset-0 size-5 text-white pointer-events-none"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={3}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                )}
+              </div>
+              <span className="text-gray-900 text-base font-normal">
+                {airline}
+              </span>
             </label>
           ))}
         </div>
       </div>
 
       {/* PRICE RANGE */}
-      <div className="mb-6 pb-6 border-b border-gray-200">
-        <h3 className="font-bold text-gray-900 mb-3 text-sm uppercase">
-          Price Range
+      <div className="mb-7 pb-6 border-b border-gray-200">
+        <h3 className="font-bold text-gray-900 mb-6 text-sm uppercase tracking-wide">
+          PRICE RANGE
         </h3>
-        <Slider
-          value={priceRange}
-          onValueChange={(value) => setPriceRange(value as [number, number])}
-          min={1000}
-          max={10000}
-          step={100}
-          className="mb-4"
-        />
-        <div className="flex items-center justify-between text-gray-700 font-semibold">
-          <span>${priceRange[0].toLocaleString()}</span>
-          <span>${priceRange[1].toLocaleString()}</span>
+        <div className="px-1">
+          <Slider
+            value={priceRange}
+            onValueChange={(value) => setPriceRange(value as [number, number])}
+            min={1000}
+            max={10000}
+            step={100}
+            className="mb-4"
+          />
+          <div className="flex items-center justify-between text-gray-700 font-semibold text-sm">
+            <span>${priceRange[0].toLocaleString()}</span>
+            <span>${3500}</span>
+            <span>${priceRange[1].toLocaleString()}</span>
+          </div>
         </div>
       </div>
 
       {/* DEPARTURE FROM ABUJA */}
-      <div className="mb-6 pb-6 border-b border-gray-200">
-        <h3 className="font-bold text-gray-900 mb-3 text-sm uppercase">
-          Departure from Abuja
+      <div className="mb-7 pb-6 border-b border-gray-200">
+        <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wide">
+          DEPARTURE FROM ABUJA
         </h3>
         <div className="space-y-2">
           {timeSlots.map((slot) => {
@@ -205,16 +230,16 @@ const BookingFilterSidebar = ({
                 onClick={() =>
                   toggleArrayValue(departureTime, setDepartureTime, slot.id)
                 }
-                className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${
+                className={`w-full flex items-center gap-3 p-3 rounded-md transition-all ${
                   isSelected
-                    ? "bg-yellow-400 text-gray-900"
-                    : "bg-yellow-50 text-gray-700"
+                    ? "bg-[#FFC107] text-gray-900"
+                    : "bg-[#aff7094f] text-gray-700 hover:bg-[#FFC107]"
                 }`}
               >
-                <Icon className="size-5" />
+                <Icon className="size-6 shrink-0" />
                 <div className="text-left flex-1">
                   <div className="font-semibold text-sm">{slot.label}</div>
-                  <div className="text-xs opacity-75">{slot.time}</div>
+                  <div className="text-xs opacity-90">{slot.time}</div>
                 </div>
               </button>
             );
@@ -223,9 +248,9 @@ const BookingFilterSidebar = ({
       </div>
 
       {/* ARRIVAL IN LONDON */}
-      <div className="mb-6 pb-6 border-b border-gray-200">
-        <h3 className="font-bold text-gray-900 mb-3 text-sm uppercase">
-          Arrival in London
+      <div className="mb-7 pb-6 border-b border-gray-200">
+        <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wide">
+          ARRIVAL IN LONDON
         </h3>
         <div className="space-y-2">
           {timeSlots.map((slot) => {
@@ -237,16 +262,16 @@ const BookingFilterSidebar = ({
                 onClick={() =>
                   toggleArrayValue(arrivalTime, setArrivalTime, slot.id)
                 }
-                className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${
+                className={`w-full cursor-pointer flex items-center gap-3 p-3 rounded-md transition-all ${
                   isSelected
-                    ? "bg-yellow-400 text-gray-900"
-                    : "bg-yellow-50 text-gray-700"
+                    ? "bg-[#FFC107] text-gray-900"
+                    : "bg-[#aff7094f] text-gray-700 hover:bg-[#FFC107]"
                 }`}
               >
-                <Icon className="size-5" />
+                <Icon className="size-6 shrink-0" />
                 <div className="text-left flex-1">
                   <div className="font-semibold text-sm">{slot.label}</div>
-                  <div className="text-xs opacity-75">{slot.time}</div>
+                  <div className="text-xs opacity-90">{slot.time}</div>
                 </div>
               </button>
             );
@@ -255,39 +280,40 @@ const BookingFilterSidebar = ({
       </div>
 
       {/* PREFERRED CLASS */}
-      <div className="mb-6 pb-6 border-b border-gray-200">
-        <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase">
+      <div className="mb-7 pb-6 border-b border-gray-200">
+        <h3 className="font-bold text-gray-900 mb-2 text-sm uppercase tracking-wide">
           Preferred class
         </h3>
-        <div className="flex justify-between mb-2 text-xs font-semibold text-gray-500 px-1">
-          <span></span>
+        <div className="flex justify-end mb-3 text-sm font-semibold text-gray-600">
           <span>From</span>
         </div>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {classOptions.map((option) => (
             <label
               key={option.id}
-              className="flex items-center justify-between cursor-pointer"
+              className="flex items-center justify-between cursor-pointer group"
             >
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={preferredClass.includes(option.id)}
-                  onChange={() =>
-                    toggleArrayValue(
-                      preferredClass,
-                      setPreferredClass,
-                      option.id
-                    )
-                  }
-                  className="size-5 rounded border-2 border-gray-300"
-                />
-                <span className="text-gray-700">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <input
+                    type="checkbox"
+                    checked={preferredClass.includes(option.id)}
+                    onChange={() =>
+                      toggleArrayValue(
+                        preferredClass,
+                        setPreferredClass,
+                        option.id
+                      )
+                    }
+                    className="appearance-none size-5 rounded border-2 border-gray-400 cursor-pointer transition-all"
+                  />
+                </div>
+                <span className="text-gray-900 text-base font-normal">
                   {option.label}({option.count})
                 </span>
               </div>
-              <span className="font-bold text-gray-900">
-                ${option.price.toLocaleString()}
+              <span className="font-bold text-gray-900 text-base">
+                $ {option.price.toLocaleString()}
               </span>
             </label>
           ))}
@@ -295,37 +321,40 @@ const BookingFilterSidebar = ({
       </div>
 
       {/* TRAVEL AND BAGGAGE */}
-      <div className="mb-6 pb-6 border-b border-gray-200">
-        <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase">
+      <div className="mb-7 pb-6 border-b border-gray-200">
+        <h3 className="font-bold text-gray-900 mb-2 text-sm uppercase tracking-wide">
           Travel and baggage
         </h3>
-        <div className="flex justify-between mb-2 text-xs font-semibold text-gray-500 px-1">
-          <span></span>
+        <div className="flex justify-end mb-3 text-sm font-semibold text-gray-600">
           <span>From</span>
         </div>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {baggageOptions.map((option) => (
             <label
               key={option.id}
-              className="flex items-center justify-between cursor-pointer"
+              className="flex items-center justify-between cursor-pointer group"
             >
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={travelAndBaggage.includes(option.id)}
-                  onChange={() =>
-                    toggleArrayValue(
-                      travelAndBaggage,
-                      setTravelAndBaggage,
-                      option.id
-                    )
-                  }
-                  className="size-5 rounded border-2 border-gray-300"
-                />
-                <span className="text-gray-700">{option.label}</span>
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <input
+                    type="checkbox"
+                    checked={travelAndBaggage.includes(option.id)}
+                    onChange={() =>
+                      toggleArrayValue(
+                        travelAndBaggage,
+                        setTravelAndBaggage,
+                        option.id
+                      )
+                    }
+                    className="appearance-none size-5 rounded border-2 border-gray-400 cursor-pointer transition-all"
+                  />
+                </div>
+                <span className="text-gray-900 text-base font-normal">
+                  {option.label}
+                </span>
               </div>
-              <span className="font-bold text-gray-900">
-                ${option.price.toLocaleString()}
+              <span className="font-bold text-gray-900 text-base">
+                $ {option.price.toLocaleString()}
               </span>
             </label>
           ))}
@@ -334,18 +363,22 @@ const BookingFilterSidebar = ({
 
       {/* TOTAL TRAVEL TIME */}
       <div className="mb-2">
-        <h3 className="font-bold text-gray-900 mb-3 text-sm uppercase">
+        <h3 className="font-bold text-gray-900 mb-3 text-sm uppercase tracking-wide">
           Total travel time
         </h3>
-        <div className="text-gray-700 mb-4">Under {maxTravelTime}h</div>
-        <Slider
-          value={[maxTravelTime]}
-          onValueChange={(value) => setMaxTravelTime(value[0])}
-          min={1}
-          max={48}
-          step={1}
-          className="mb-2"
-        />
+        <div className="text-gray-700 mb-4 font-normal">
+          Under {maxTravelTime}h
+        </div>
+        <div className="px-1">
+          <Slider
+            value={[maxTravelTime]}
+            onValueChange={(value) => setMaxTravelTime(value[0])}
+            min={1}
+            max={48}
+            step={1}
+            className="mb-2"
+          />
+        </div>
       </div>
     </div>
   );
