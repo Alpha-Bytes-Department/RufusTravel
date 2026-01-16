@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Drawer } from "antd";
+import { SlidersHorizontal } from "lucide-react";
 import FiltersSidebar from "@/Component/Hotels/FiltersSidebar";
 import HotelList from "@/Component/Hotels/HotelList";
 import Pagination from "@/Component/Hotels/Pagination";
@@ -10,6 +12,7 @@ import { Hotel } from "@/Types/Hotel/hotel";
 export default function Hotels() {
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [filteredHotels, setFilteredHotels] = useState<Hotel[]>([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
     search: "",
     priceRanges: [] as string[],
@@ -21,7 +24,7 @@ export default function Hotels() {
     amenities: [] as string[],
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const hotelsPerPage = 5;
+  const hotelsPerPage = 20;
 
   useEffect(() => {
     // Simulate API fetch
@@ -32,12 +35,14 @@ export default function Hotels() {
   useEffect(() => {
     let results = hotels;
 
+    // Search by hotel name
     if (filters.search) {
       results = results.filter((h) =>
         h.name.toLowerCase().includes(filters.search.toLowerCase())
       );
     }
 
+    // Filter by price range
     if (filters.priceRanges.length > 0) {
       results = results.filter((h) =>
         filters.priceRanges.some((range) => {
@@ -46,7 +51,52 @@ export default function Hotels() {
         })
       );
     }
-    // Extend for other filters similarly...
+
+    // Filter by accessibility features
+    if (filters.accessibility.length > 0) {
+      results = results.filter((h) =>
+        filters.accessibility.some((feature) =>
+          h.accessibility?.includes(feature)
+        )
+      );
+    }
+
+    // Filter by meal plans
+    if (filters.mealPlans.length > 0) {
+      results = results.filter((h) =>
+        filters.mealPlans.some((plan) => h.mealPlans?.includes(plan))
+      );
+    }
+
+    // Filter by property type
+    if (filters.propertyTypes.length > 0) {
+      results = results.filter((h) =>
+        filters.propertyTypes.includes(h.propertyType || "")
+      );
+    }
+
+    // Filter by traveler experience
+    if (filters.travelerExperience.length > 0) {
+      results = results.filter((h) =>
+        filters.travelerExperience.some((exp) =>
+          h.travelerExperience?.includes(exp)
+        )
+      );
+    }
+
+    // Filter by star rating
+    if (filters.starRatings.length > 0) {
+      results = results.filter((h) =>
+        filters.starRatings.includes(h.starRating || 0)
+      );
+    }
+
+    // Filter by amenities
+    if (filters.amenities.length > 0) {
+      results = results.filter((h) =>
+        filters.amenities.every((amenity) => h.amenities?.includes(amenity))
+      );
+    }
 
     setFilteredHotels(results);
     setCurrentPage(1);
@@ -65,68 +115,48 @@ export default function Hotels() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Your existing search bar */}
-      {/* <div className="flex items-center justify-center gap-4 p-4 bg-white flex-wrap">
-        <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-60">
-          <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-            <rect x="3" y="4" width="18" height="18" rx="2" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-          </svg>
-          <div>
-            <p className="text-xs text-gray-500">Check in</p>
-            <p className="text-sm font-semibold text-yellow-700">Nov 28, 2025</p>
-            <p className="text-xs text-gray-500">Friday</p>
-          </div>
+    <div className="min-h-screen max-w-[95vw] lg:max-w-[80vw] mx-auto bg-white">
+      <div className="container mx-auto lg:p-4 flex flex-col lg:flex-row gap-4">
+        {/* Desktop Filter Sidebar */}
+        <div className="hidden lg:block">
+          <FiltersSidebar
+            filters={filters}
+            onFilterChange={handleFilterChange}
+          />
         </div>
 
-        <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-60">
-          <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-            <rect x="3" y="4" width="18" height="18" rx="2" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-          </svg>
-          <div>
-            <p className="text-xs text-gray-500">Check out</p>
-            <p className="text-sm font-semibold text-yellow-700">Nov 28, 2025</p>
-            <p className="text-xs text-gray-500">Friday</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-[200px]">
-          <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-            <circle cx="12" cy="7" r="4" />
-            <path d="M4 21c0-4 4-7 8-7s8 3 8 7" />
-          </svg>
-          <div>
-            <p className="text-xs text-gray-500">Guests</p>
-            <p className="text-sm font-semibold text-yellow-700">01</p>
-            <p className="text-xs text-gray-500">Person</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-[200px]">
-          <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-            <rect x="3" y="10" width="18" height="7" rx="2" />
-            <path d="M7 10V7a2 2 0 012-2h6a2 2 0 012 2v3" />
-          </svg>
-          <div>
-            <p className="text-xs text-gray-500">Room</p>
-            <p className="text-sm font-semibold text-yellow-700">02</p>
-            <p className="text-xs text-gray-500">Economy</p>
-          </div>
-        </div>
-
-        <button className="px-5 py-7 rounded-xl border border-slate-300 min-w-[200px] bg-yellow-400 hover:bg-yellow-500 transition text-gray-900 font-semibold text-xl">
-          Confirm
-        </button>
-      </div> */}
-       
-      <div className="container mx-auto p-4 flex flex-col md:flex-row gap-4">
-        <FiltersSidebar filters={filters} onFilterChange={handleFilterChange} />
+        {/* Hotel List */}
         <HotelList hotels={currentHotels} />
       </div>
+
+      {/* Mobile Filter Button */}
+      <button
+        onClick={() => setIsFilterOpen(true)}
+        className="lg:hidden fixed bottom-6 right-6 z-40 bg-[#FFC107] hover:bg-[#FFD54F] text-gray-900 font-bold px-6 py-4 rounded-full shadow-2xl flex items-center gap-2 transition-all"
+      >
+        <SlidersHorizontal className="size-5" />
+        Filters
+      </button>
+
+      {/* Mobile Filter Drawer */}
+      <Drawer
+        title="Filter Hotels"
+        placement="left"
+        onClose={() => setIsFilterOpen(false)}
+        open={isFilterOpen}
+        width={320}
+        styles={{
+          header: {
+            background: "linear-gradient(135deg, #FFC107 0%, #FFD54F 100%)",
+            borderBottom: "2px solid #D4A60A",
+          },
+          body: {
+            padding: "16px",
+          },
+        }}
+      >
+        <FiltersSidebar filters={filters} onFilterChange={handleFilterChange} />
+      </Drawer>
 
       <Pagination
         currentPage={currentPage}

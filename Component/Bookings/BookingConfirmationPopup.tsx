@@ -16,7 +16,7 @@ const BookingConfirmationPopup: React.FC = () => {
   };
 
   const handleViewJourney = () => {
-    router.push("/journey"); 
+    router.push("/profile/mybookings"); 
   };
 
   const handleBackToHome = () => {

@@ -7,4 +7,10 @@ export interface Hotel {
   description: string;
   location: string;
   price: number;
+  starRating?: number;
+  amenities?: string[];
+  accessibility?: string[];
+  mealPlans?: string[];
+  propertyType?: string;
+  travelerExperience?: string[];
 }

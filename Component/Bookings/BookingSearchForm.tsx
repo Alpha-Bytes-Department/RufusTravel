@@ -100,7 +100,7 @@ const BookingSearchForm = ({
   const returnDate = watch("returnDate");
 
   return (
-    <div className="w-full  lg:p-6 mb-6">
+    <div className=" max-w-[95vw] lg:max-w-[80vw] mx-auto  lg:p-6 mb-6">
       {/* ===============================Tabs============================== */}
       <div className="mb-6 flex  py-2 w-fit mx-auto px-2 rounded-full flex-wrap justify-center gap-2">
         {tabs.map((tab) => {

@@ -42,16 +42,36 @@ interface FlightCardProps {
 }
 
 const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
-
   const router = useRouter();
 
-
-
-
   const renderFlightSegment = (segment: Flight, isReturn: boolean = false) => (
-    <div className="flex items-center justify-between py-4">
-      {/* Airline Logo */}
-      <div className="flex items-center gap-3 w-24">
+    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between py-4 gap-4 lg:gap-0">
+      {/* Mobile: Top Row (Airline + Price) */}
+      <div className="flex items-center justify-between lg:hidden">
+        <div className="flex items-center gap-3">
+          <img
+            src={segment.airlineLogo}
+            alt={segment.airline}
+            className="w-10 h-10 object-contain"
+          />
+          <div className="text-sm text-gray-700 font-medium">
+            {segment.airline}
+          </div>
+        </div>
+        {!isReturn && (
+          <div className="text-right">
+            <div className="font-bold text-xl text-gray-900">
+              ${flight.price.toLocaleString()}
+            </div>
+            <div className="text-xs text-gray-500">
+              {flight.totalTravelers} traveller(s)
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Desktop: Airline Logo */}
+      <div className="hidden lg:flex items-center gap-3 w-24">
         <img
           src={segment.airlineLogo}
           alt={segment.airline}
@@ -59,56 +79,67 @@ const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
         />
       </div>
 
-      {/* Departure Info */}
-      <div className="text-left">
-        <div className="font-bold text-xl text-gray-900">
-          {segment.departureCode}
-        </div>
-        <div className="text-sm text-gray-600">{segment.departureTime}</div>
-        <div className="text-xs text-gray-500">{segment.departureDate}</div>
-        <div className="text-xs text-gray-500">{segment.departureName}</div>
-      </div>
-
-      {/* Flight Path */}
-      <div className="flex-1 px-8">
-        <div className="relative">
-          <div className="flex items-center justify-center">
-            <div className="flex-1 h-0.5 bg-yellow-400"></div>
-            <div className="bg-yellow-400 rounded-full p-3">
-              <Plane
-                className={`size-5 text-gray-900 ${
-                  isReturn ? "rotate-180" : ""
-                }`}
-              />
-            </div>
-            <div className="flex-1 h-0.5 bg-yellow-400"></div>
+      {/* Flight Info Container */}
+      <div className="flex items-center justify-between flex-1">
+        {/* Departure Info */}
+        <div className="text-left">
+          <div className="font-bold text-lg lg:text-xl text-gray-900">
+            {segment.departureCode}
           </div>
-          <div className="text-center mt-2">
-            <div className="text-sm font-semibold text-gray-900">
-              {segment.duration}
-            </div>
-            <div className="text-xs text-gray-600 font-medium">
-              {segment.stops === 0
-                ? "Non-Stop"
-                : `${segment.stops} Stop${segment.stops > 1 ? "s" : ""}`}
-            </div>
+          <div className="text-sm text-gray-600">{segment.departureTime}</div>
+          <div className="text-xs text-gray-500 hidden sm:block">
+            {segment.departureDate}
+          </div>
+          <div className="text-xs text-gray-500 hidden lg:block">
+            {segment.departureName}
           </div>
         </div>
-      </div>
 
-      {/* Arrival Info */}
-      <div className="text-right">
-        <div className="font-bold text-xl text-gray-900">
-          {segment.arrivalCode}
+        {/* Flight Path */}
+        <div className="flex-1 px-4 lg:px-8 max-w-[200px] lg:max-w-none">
+          <div className="relative">
+            <div className="flex items-center justify-center">
+              <div className="flex-1 h-0.5 bg-yellow-400"></div>
+              <div className="bg-yellow-400 rounded-full p-2 lg:p-3">
+                <Plane
+                  className={`size-4 lg:size-5 text-gray-900 ${
+                    isReturn ? "rotate-180" : ""
+                  }`}
+                />
+              </div>
+              <div className="flex-1 h-0.5 bg-yellow-400"></div>
+            </div>
+            <div className="text-center mt-2">
+              <div className="text-xs lg:text-sm font-semibold text-gray-900">
+                {segment.duration}
+              </div>
+              <div className="text-xs text-gray-600 font-medium">
+                {segment.stops === 0
+                  ? "Non-Stop"
+                  : `${segment.stops} Stop${segment.stops > 1 ? "s" : ""}`}
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="text-sm text-gray-600">{segment.arrivalTime}</div>
-        <div className="text-xs text-gray-500">{segment.arrivalDate}</div>
-        <div className="text-xs text-gray-500">{segment.arrivalName}</div>
+
+        {/* Arrival Info */}
+        <div className="text-right">
+          <div className="font-bold text-lg lg:text-xl text-gray-900">
+            {segment.arrivalCode}
+          </div>
+          <div className="text-sm text-gray-600">{segment.arrivalTime}</div>
+          <div className="text-xs text-gray-500 hidden sm:block">
+            {segment.arrivalDate}
+          </div>
+          <div className="text-xs text-gray-500 hidden lg:block">
+            {segment.arrivalName}
+          </div>
+        </div>
       </div>
 
-      {/* Price and Details (only on outbound) */}
+      {/* Desktop: Price and Details (only on outbound) */}
       {!isReturn && (
-        <div className="text-right ml-8 w-40">
+        <div className="hidden lg:block text-right ml-8 w-40">
           <div className="font-bold text-2xl text-gray-900 mb-1">
             ${flight.price.toLocaleString()}
           </div>
@@ -224,12 +255,27 @@ const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
                 </div>
 
                 {/* ✅ Button moved here */}
-                <Button onClick={()=> router.push("bookings/checkout")} className="mt-6 w-full bg-yellow-400 hover:bg-yellow-600 text-gray-600 font-bold text-lg py-7 rounded-xl shadow-lg">
+                <Button
+                  onClick={() => router.push("bookings/checkout")}
+                  className="mt-6 w-full bg-yellow-400 hover:bg-yellow-600 text-gray-600 font-bold text-lg py-7 rounded-xl shadow-lg"
+                >
                   See Fares
                 </Button>
               </div>
             </div>
           </Drawer>
+        </div>
+      )}
+
+      {/* Mobile: Button (only on outbound) */}
+      {!isReturn && (
+        <div className="lg:hidden mt-2">
+          <Button
+            onClick={() => setOpen(true)}
+            className="bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-3 rounded-lg w-full"
+          >
+            Flight Details
+          </Button>
         </div>
       )}
     </div>
@@ -238,7 +284,7 @@ const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 mb-4 hover:shadow-lg transition-shadow">
+    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-4 sm:p-6 mb-4 hover:shadow-lg transition-shadow">
       {/* Outbound Flight */}
       {renderFlightSegment(flight.outbound)}
 
@@ -246,91 +292,107 @@ const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
       {flight.return && (
         <>
           <div className="border-t border-gray-200 my-2"></div>
-          <div className="flex items-center justify-between py-4">
-            {/* Airline Logo */}
-            <div className="flex items-center gap-3 w-24">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between py-4 gap-4 lg:gap-0">
+            {/* Mobile: Top Row (Airline) */}
+            <div className="flex items-center gap-3 lg:hidden">
               <img
+                src={flight.return.airlineLogo}
+                alt={flight.return.airline}
+                className="w-10 h-10 object-contain"
+              />
+              <div className="text-sm text-gray-700 font-medium">
+                {flight.return.airline}
+              </div>
+            </div>
+
+            {/* Desktop: Airline Logo */}
+            <div className="hidden lg:flex items-center gap-3 w-24">
+              <img
+                src={flight.return.airlineLogo}
                 alt={flight.return.airline}
                 className="w-12 h-12 object-contain"
               />
             </div>
 
-            {/* Departure Info */}
-            <div className="text-left">
-              <div className="font-bold text-xl text-gray-900">
-                {flight.return.departureCode}
-              </div>
-              <div className="text-sm text-gray-600">
-                {flight.return.departureTime}
-              </div>
-              <div className="text-xs text-gray-500">
-                {flight.return.departureDate}
-              </div>
-              <div className="text-xs text-gray-500">
-                {flight.return.departureName}
-              </div>
-            </div>
-
-            {/* Flight Path */}
-            <div className="flex-1 px-8">
-              <div className="relative">
-                <div className="flex items-center justify-center">
-                  <div className="flex-1 h-0.5 bg-yellow-400"></div>
-                  <div className="bg-yellow-400 rounded-full p-3">
-                    <Plane className="size-5 text-gray-900 rotate-180" />
-                  </div>
-                  <div className="flex-1 h-0.5 bg-yellow-400"></div>
+            {/* Flight Info Container */}
+            <div className="flex items-center justify-between flex-1">
+              {/* Departure Info */}
+              <div className="text-left">
+                <div className="font-bold text-lg lg:text-xl text-gray-900">
+                  {flight.return.departureCode}
                 </div>
-                <div className="text-center mt-2">
-                  <div className="text-sm font-semibold text-gray-900">
-                    {flight.return.duration}
-                  </div>
-                  <div className="text-xs text-gray-600 font-medium">
-                    {flight.return.stops === 0
-                      ? "Non-Stop"
-                      : `${flight.return.stops} Stop${
-                          flight.return.stops > 1 ? "s" : ""
-                        }`}
-                  </div>
+                <div className="text-sm text-gray-600">
+                  {flight.return.departureTime}
+                </div>
+                <div className="text-xs text-gray-500 hidden sm:block">
+                  {flight.return.departureDate}
+                </div>
+                <div className="text-xs text-gray-500 hidden lg:block">
+                  {flight.return.departureName}
                 </div>
               </div>
+
+              {/* Flight Path */}
+              <div className="flex-1 px-4 lg:px-8 max-w-[200px] lg:max-w-none">
+                <div className="relative">
+                  <div className="flex items-center justify-center">
+                    <div className="flex-1 h-0.5 bg-yellow-400"></div>
+                    <div className="bg-yellow-400 rounded-full p-2 lg:p-3">
+                      <Plane className="size-4 lg:size-5 text-gray-900 rotate-180" />
+                    </div>
+                    <div className="flex-1 h-0.5 bg-yellow-400"></div>
+                  </div>
+                  <div className="text-center mt-2">
+                    <div className="text-xs lg:text-sm font-semibold text-gray-900">
+                      {flight.return.duration}
+                    </div>
+                    <div className="text-xs text-gray-600 font-medium">
+                      {flight.return.stops === 0
+                        ? "Non-Stop"
+                        : `${flight.return.stops} Stop${
+                            flight.return.stops > 1 ? "s" : ""
+                          }`}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Arrival Info */}
+              <div className="text-right">
+                <div className="font-bold text-lg lg:text-xl text-gray-900">
+                  {flight.return.arrivalCode}
+                </div>
+                <div className="text-sm text-gray-600">
+                  {flight.return.arrivalTime}
+                </div>
+                <div className="text-xs text-gray-500 hidden sm:block">
+                  {flight.return.arrivalDate}
+                </div>
+                <div className="text-xs text-gray-500 hidden lg:block">
+                  {flight.return.arrivalName}
+                </div>
+              </div>
             </div>
 
-            {/* Arrival Info */}
-            <div className="text-right">
-              <div className="font-bold text-xl text-gray-900">
-                {flight.return.arrivalCode}
-              </div>
-              <div className="text-sm text-gray-600">
-                {flight.return.arrivalTime}
-              </div>
-              <div className="text-xs text-gray-500">
-                {flight.return.arrivalDate}
-              </div>
-              <div className="text-xs text-gray-500">
-                {flight.return.arrivalName}
-              </div>
-            </div>
-
-            <div className="w-40 ml-8"></div>
+            <div className="hidden lg:block w-40 ml-8"></div>
           </div>
         </>
       )}
 
       {/* Footer */}
       <div className="border-t border-gray-200 pt-4 mt-2">
-        <div className="flex items-center justify-between text-xs text-gray-600">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-gray-600">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4">
             <span>{flight.outbound.airline}</span>
-            <span>•</span>
+            <span className="hidden sm:inline">•</span>
             <span>{flight.outbound.flightNumber}</span>
-            <span>•</span>
+            <span className="hidden sm:inline">•</span>
             <span>{flight.outbound.class}</span>
-            <span>•</span>
-            <span>{flight.outbound.baggage}</span>
+            <span className="hidden lg:inline">•</span>
+            <span className="hidden lg:inline">{flight.outbound.baggage}</span>
           </div>
           {flight.isRefundable && (
-            <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-3 py-1 rounded-full font-semibold">
+            <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-3 py-1 rounded-full font-semibold text-center sm:text-left">
               Refundable
             </div>
           )}

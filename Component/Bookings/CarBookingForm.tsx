@@ -1,20 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Send, MapPin, Calendar, Search } from "lucide-react";
+import { Send, MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-
-type TripType = "oneWay" | "roundTrip";
+import DateTimePicker from "../LandingPage/DateTimePicker";
 
 interface CarFormData {
-  tripType: TripType;
   from: string;
   to: string;
   journeyDate: string;
-  returnDate?: string;
 }
 
 interface CarBookingFormProps {
@@ -24,118 +21,104 @@ interface CarBookingFormProps {
 const CarBookingForm = ({ onSearch }: CarBookingFormProps) => {
   const { register, handleSubmit, watch, setValue } = useForm<CarFormData>({
     defaultValues: {
-      tripType: "oneWay",
       from: "",
       to: "",
       journeyDate: "",
-      returnDate: "",
     },
   });
 
-  const tripType = watch("tripType");
+  const [showJourneyDatePicker, setShowJourneyDatePicker] = useState(false);
+
+  const journeyDate = watch("journeyDate");
+
+  // Get day name like "Friday"
+  const getDayName = (dateString: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", { weekday: "long" });
+  };
 
   const onSubmit = (data: CarFormData) => {
     onSearch(data);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* ===============================Trip Type============================== */}
-      <div className="flex items-center justify-center gap-6 mb-6 p-4 bg-gray-50 rounded-xl flex-wrap">
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="radio"
-            checked={tripType === "oneWay"}
-            onChange={() => setValue("tripType", "oneWay")}
-            className="size-5 accent-gray-900"
-          />
-          <span className="font-medium text-gray-700">One Way</span>
-        </label>
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="radio"
-            checked={tripType === "roundTrip"}
-            onChange={() => setValue("tripType", "roundTrip")}
-            className="size-5 accent-gray-900"
-          />
-          <span className="font-medium text-gray-700">Round Trip</span>
-        </label>
-      </div>
-
-      {/* ===============================Search Fields============================== */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} >
+      {/* ===============================Horizontal Booking Form============================== */}
+      <div className="flex flex-col lg:flex-row items-stretch gap-4 w-full">
         {/* From Location */}
-        <div className="border border-gray-300 rounded-xl p-4">
-          <Label className="text-gray-500 text-xs mb-1">From</Label>
-          <div className="flex items-center gap-2">
-            <Send className="size-5 text-yellow-600" />
-            <Input
-              {...register("from", { required: true })}
-              className="border-0 p-0 font-semibold text-gray-900 text-lg focus-visible:ring-0"
-              placeholder="Pick-up Location"
-            />
+        <div className="flex-1 min-w-[200px]">
+          <div className="flex items-center gap-4 rounded-2xl bg-white border-2 border-gray-300 px-6 py-2 h-full hover:border-yellow-500 transition-colors">
+            <Send className="size-8 text-[#D4A60A] shrink-0" />
+            <div className="flex flex-col flex-1">
+              <Label className="text-xs text-gray-600 mb-1">From</Label>
+              <Input
+                {...register("from", { required: true })}
+                className="border-0 p-0 font-bold text-lg text-[#D4A60A] focus-visible:ring-0 placeholder:text-gray-400"
+                placeholder="Pick-up Location"
+              />
+            </div>
           </div>
         </div>
 
-        {/* ---To Location--- */}
-        <div className="border border-gray-300 rounded-xl p-4">
-          <Label className="text-gray-500 text-xs mb-1">To</Label>
-          <div className="flex items-center gap-2">
-            <MapPin className="size-5 text-yellow-600" />
-            <Input
-              {...register("to", { required: true })}
-              className="border-0 p-0 font-semibold text-gray-900 text-lg focus-visible:ring-0"
-              placeholder="Drop-off Location"
-            />
+        {/* To Location */}
+        <div className="flex-1 min-w-[200px]">
+          <div className="flex items-center gap-4 rounded-2xl bg-white border-2 border-gray-300 px-6 py-2 h-full hover:border-yellow-500 transition-colors">
+            <MapPin className="size-8 text-[#D4A60A] shrink-0" />
+            <div className="flex flex-col flex-1">
+              <Label className="text-xs text-gray-600 mb-1">To</Label>
+              <Input
+                {...register("to", { required: true })}
+                className="border-0 p-0 font-bold text-lg text-[#D4A60A] focus-visible:ring-0 placeholder:text-gray-400"
+                placeholder="Drop-off Location"
+              />
+            </div>
           </div>
         </div>
 
-        {/* ---Journey Date--- */}
-        <div className="border border-gray-300 rounded-xl p-4">
-          <Label className="text-gray-500 text-xs mb-1">Journey Date</Label>
-          <Input
-            type="date"
-            {...register("journeyDate")}
-            className="border-0 p-0 font-semibold text-gray-900 text-lg focus-visible:ring-0"
-          />
-          <p className="text-gray-500 text-sm mt-1">
-            {watch("journeyDate") &&
-              new Date(watch("journeyDate") || "").toLocaleDateString("en-US", {
-                weekday: "long",
-              })}
-          </p>
+        {/* Journey Date */}
+        <div className="relative flex-1 min-w-[200px]">
+          <button
+            type="button"
+            onClick={() => setShowJourneyDatePicker(!showJourneyDatePicker)}
+            className="flex items-center gap-4 rounded-2xl bg-white border-2 border-gray-300 px-6 py-2 h-full w-full hover:border-yellow-500 transition-colors"
+          >
+            <Calendar className="size-8 text-[#D4A60A] shrink-0" />
+            <div className="flex flex-col flex-1 text-left">
+              <Label className="text-xs text-gray-600 mb-1">Journey Date</Label>
+              {journeyDate ? (
+                <>
+                  <div className="text-lg font-bold text-[#D4A60A]">
+                    {journeyDate}
+                  </div>
+                  <div className="text-xs text-gray-600">
+                    {getDayName(journeyDate)}
+                  </div>
+                </>
+              ) : (
+                <div className="text-base font-semibold text-gray-400">
+                  Select date
+                </div>
+              )}
+            </div>
+          </button>
+          {showJourneyDatePicker && (
+            <DateTimePicker
+              onClose={() => setShowJourneyDatePicker(false)}
+              onSelect={(date) => {
+                setValue("journeyDate", date);
+                setShowJourneyDatePicker(false);
+              }}
+            />
+          )}
         </div>
 
-        {/* ---Return Date--- */}
-        {tripType === "roundTrip" && (
-          <div className="border border-gray-300 rounded-xl p-4">
-            <Label className="text-gray-500 text-xs mb-1">Return Date</Label>
-            <Input
-              type="date"
-              {...register("returnDate")}
-              className="border-0 p-0 font-semibold text-gray-900 text-lg focus-visible:ring-0"
-            />
-            <p className="text-gray-500 text-sm mt-1">
-              {watch("returnDate") &&
-                new Date(watch("returnDate") || "").toLocaleDateString(
-                  "en-US",
-                  {
-                    weekday: "long",
-                  }
-                )}
-            </p>
-          </div>
-        )}
-      </div>
-
-      {/* ===============================Search Button============================== */}
-      <div className="flex justify-center">
+        {/* Confirm Button */}
         <Button
           type="submit"
-          className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold px-12 py-6 text-lg rounded-xl"
+          className="bg-[#FFC107] hover:bg-[#FFD54F] text-gray-900 font-bold px-12 py-6 text-lg rounded-2xl min-w-[180px] h-auto shadow-lg"
         >
-          <Search className="mr-2 size-5" />
-          Search
+          Confirm
         </Button>
       </div>
     </form>

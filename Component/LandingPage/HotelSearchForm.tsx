@@ -51,6 +51,7 @@ const HotelSearchForm = () => {
   // ===============================Form Submission==============================
   const onSubmit = (data: HotelFormData) => {
     const hotelSearchData: HotelSearchState = {
+      tab: "hotel",
       destination: data.location,
       checkIn: data.checkIn,
       checkOut: data.checkOut,
@@ -81,7 +82,7 @@ const HotelSearchForm = () => {
     });
 
     // Navigate to hotels page with search parameters in URL
-    navigateWithState(`/hotels?${params.toString()}`, null);
+    navigateWithState(`/hotels?${params.toString()}`, hotelSearchData);
 
     // Alternative clean version without state (if your hook allows):
     // navigateWithState(`/hotels?${params.toString()}`);

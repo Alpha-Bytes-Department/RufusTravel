@@ -4,6 +4,8 @@ import React, { useState, useMemo } from "react";
 import FlightCard, { FlightCardData } from "./FlightCard";
 import BookingFilterSidebar, { FilterState } from "./BookingFilterSidebar";
 import DateSelector from "./DateSelector";
+import { Drawer } from "antd";
+import { X, SlidersHorizontal } from "lucide-react";
 
 // ===============================Interface==============================
 interface FlightResultsProps {
@@ -25,6 +27,7 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
     maxTravelTime: 28,
   });
   const [currentPage, setCurrentPage] = useState(1);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const itemsPerPage = 6;
 
   // ===============================Sample Data==============================
@@ -41,9 +44,6 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
     { day: "Mon", date: 22, month: "Dec", price: 1557 },
   ];
 
-  /**
-   * Sample flight data
-   */
   const allFlights: FlightCardData[] = [
     {
       id: "1",
@@ -224,9 +224,7 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
   ];
 
   // ===============================Filtered and Paginated Data==============================
-  /**
-   * Filter flights based on filter state
-   */
+
   const filteredFlights = useMemo(() => {
     return allFlights.filter((flight) => {
       // Filter by stops
@@ -336,9 +334,6 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
     });
   }, [allFlights, filters]);
 
-  /**
-   * Paginate filtered flights
-   */
   const paginatedFlights = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredFlights.slice(startIndex, startIndex + itemsPerPage);
@@ -353,19 +348,60 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
 
   // ===============================Render==============================
   return (
-    <div>
+    <div className=" max-w-[95vw] lg:max-w-[80vw] mx-auto">
       {/* ===============================Date Selector============================== */}
-      <DateSelector
-        dates={dates}
-        selectedDate={selectedDate}
-        onDateSelect={setSelectedDate}
-      />
 
       <div className="flex gap-6 items-start">
-        {/* ===============================Filter Sidebar============================== */}
+        {/* ===============================Desktop Filter Sidebar============================== */}
         <div className="hidden lg:block w-80 shrink-0">
           <BookingFilterSidebar onFilterChange={setFilters} />
         </div>
+
+        {/* ===============================Mobile Filter Drawer============================== */}
+        <Drawer
+          width={340}
+          placement="left"
+          closable={false}
+          onClose={() => setIsFilterOpen(false)}
+          open={isFilterOpen}
+          classNames={{
+            mask: "bg-black/50",
+            body: "p-0",
+          }}
+          headerStyle={{ display: "none" }}
+        >
+          <div className="bg-white h-full flex flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-200">
+              <h2 className="text-2xl font-semibold text-gray-900 flex items-center gap-2">
+                <SlidersHorizontal className="w-6 h-6" />
+                Filters
+              </h2>
+              <button
+                onClick={() => setIsFilterOpen(false)}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                aria-label="Close filters"
+              >
+                <X className="w-6 h-6 text-gray-600" />
+              </button>
+            </div>
+
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto lg:px-6 lg:py-6">
+              <BookingFilterSidebar onFilterChange={setFilters} />
+            </div>
+
+            {/* Footer with Apply Button */}
+            <div className="border-t border-gray-200 p-4">
+              <button
+                onClick={() => setIsFilterOpen(false)}
+                className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 rounded-lg transition-colors"
+              >
+                Apply Filters
+              </button>
+            </div>
+          </div>
+        </Drawer>
 
         {/* ===============================Flight List============================== */}
         <div className="flex-1 min-w-0">
@@ -376,6 +412,11 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
               results
             </h2>
           </div>
+          <DateSelector
+            dates={dates}
+            selectedDate={selectedDate}
+            onDateSelect={setSelectedDate}
+          />
 
           {/* Flight Cards */}
           {paginatedFlights.length > 0 ? (
@@ -465,7 +506,11 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
       </div>
 
       {/* ===============================Mobile Filter Button============================== */}
-      <button className="lg:hidden fixed bottom-6 right-6 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-6 py-4 rounded-full shadow-lg z-50">
+      <button
+        onClick={() => setIsFilterOpen(true)}
+        className="lg:hidden fixed bottom-6 right-6 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-6 py-4 rounded-full shadow-lg z-50 flex items-center gap-2"
+      >
+        <SlidersHorizontal className="w-5 h-5" />
         Filters ({filteredFlights.length})
       </button>
     </div>
