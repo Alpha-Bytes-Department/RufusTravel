@@ -67,9 +67,8 @@ export default function Hotels() {
   return (
     <div className="min-h-screen bg-white">
       {/* Your existing search bar */}
-      <div className="flex items-center justify-center gap-4 p-4 bg-white flex-wrap">
-        {/* Check In */}
-        <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-[240px]">
+      {/* <div className="flex items-center justify-center gap-4 p-4 bg-white flex-wrap">
+        <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-60">
           <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
             <rect x="3" y="4" width="18" height="18" rx="2" />
             <line x1="16" y1="2" x2="16" y2="6" />
@@ -82,8 +81,7 @@ export default function Hotels() {
           </div>
         </div>
 
-        {/* Check Out */}
-        <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-[240px]">
+        <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-60">
           <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
             <rect x="3" y="4" width="18" height="18" rx="2" />
             <line x1="16" y1="2" x2="16" y2="6" />
@@ -96,7 +94,6 @@ export default function Hotels() {
           </div>
         </div>
 
-        {/* Guests */}
         <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-[200px]">
           <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
             <circle cx="12" cy="7" r="4" />
@@ -109,7 +106,6 @@ export default function Hotels() {
           </div>
         </div>
 
-        {/* Room */}
         <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-[200px]">
           <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
             <rect x="3" y="10" width="18" height="7" rx="2" />
@@ -122,19 +118,16 @@ export default function Hotels() {
           </div>
         </div>
 
-        {/* Confirm */}
         <button className="px-5 py-7 rounded-xl border border-slate-300 min-w-[200px] bg-yellow-400 hover:bg-yellow-500 transition text-gray-900 font-semibold text-xl">
           Confirm
         </button>
-      </div>
-
-      {/* Main Content */}
+      </div> */}
+       
       <div className="container mx-auto p-4 flex flex-col md:flex-row gap-4">
         <FiltersSidebar filters={filters} onFilterChange={handleFilterChange} />
         <HotelList hotels={currentHotels} />
       </div>
 
-      {/* Pagination */}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}

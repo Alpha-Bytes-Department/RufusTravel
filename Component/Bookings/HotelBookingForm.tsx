@@ -242,7 +242,7 @@ const HotelBookingForm = ({ onSearch }: HotelBookingFormProps) => {
           Search
         </Button>
       </div>
-      <Hotels/>
+      
     </form>
   );
 };
