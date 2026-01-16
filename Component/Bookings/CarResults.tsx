@@ -166,7 +166,7 @@ const CarResults = ({ searchData }: CarResultsProps) => {
 
   // ===============================Render==============================
   return (
-    <div className="max-w-[95vw] lg:max-w-[80vw] mx-auto">
+    <div className="max-w-[95vw] lg:max-w-[80vw] lg:p-6 mx-auto">
       <div className="flex gap-6 items-start relative">
         {/* ===============================Filter Sidebar (Desktop)============================== */}
         <div className="hidden lg:block w-80 shrink-0 sticky top-24">
