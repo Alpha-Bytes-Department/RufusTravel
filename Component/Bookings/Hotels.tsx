@@ -65,7 +65,7 @@ export default function Hotels() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen  max-w-[95vw] lg:max-w-[80vw] mx-auto bg-white">
       {/* Your existing search bar */}
       {/* <div className="flex items-center justify-center gap-4 p-4 bg-white flex-wrap">
         <div className="flex items-center gap-4 px-5 py-4 rounded-xl border border-slate-300 min-w-60">
@@ -122,7 +122,7 @@ export default function Hotels() {
           Confirm
         </button>
       </div> */}
-       
+
       <div className="container mx-auto p-4 flex flex-col md:flex-row gap-4">
         <FiltersSidebar filters={filters} onFilterChange={handleFilterChange} />
         <HotelList hotels={currentHotels} />

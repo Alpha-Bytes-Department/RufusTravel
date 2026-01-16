@@ -40,7 +40,7 @@ const Bookings = () => {
 
   // ===============================Render==============================
   return (
-    <div className="max-w-[80vw] mx-auto py-8">
+    <div className=" mx-auto py-8">
       {/* ===============================Search Form============================== */}
       <BookingSearchForm
         onSearch={handleSearch}

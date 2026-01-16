@@ -41,9 +41,7 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
     { day: "Mon", date: 22, month: "Dec", price: 1557 },
   ];
 
-  /**
-   * Sample flight data
-   */
+
   const allFlights: FlightCardData[] = [
     {
       id: "1",
@@ -224,9 +222,7 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
   ];
 
   // ===============================Filtered and Paginated Data==============================
-  /**
-   * Filter flights based on filter state
-   */
+  
   const filteredFlights = useMemo(() => {
     return allFlights.filter((flight) => {
       // Filter by stops
@@ -336,9 +332,7 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
     });
   }, [allFlights, filters]);
 
-  /**
-   * Paginate filtered flights
-   */
+  
   const paginatedFlights = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredFlights.slice(startIndex, startIndex + itemsPerPage);
@@ -353,7 +347,7 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
 
   // ===============================Render==============================
   return (
-    <div>
+    <div className=" max-w-[95vw] lg:max-w-[80vw] mx-auto">
       {/* ===============================Date Selector============================== */}
       <DateSelector
         dates={dates}
@@ -463,7 +457,7 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
           )}
         </div>
       </div>
-
+ 
       {/* ===============================Mobile Filter Button============================== */}
       <button className="lg:hidden fixed bottom-6 right-6 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-6 py-4 rounded-full shadow-lg z-50">
         Filters ({filteredFlights.length})
