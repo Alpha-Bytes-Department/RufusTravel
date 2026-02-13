@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +14,31 @@ import type {
   SignInErrors,
 } from "@/Types/Auth/SignIn/Signin";
 
+// ===============================Mock User Data==============================
+const MOCK_USERS = [
+  {
+    id: 1,
+    email: "user@test.com",
+    password: "password123",
+    name: "Test User",
+    role: "user",
+  },
+  {
+    id: 2,
+    email: "admin@test.com",
+    password: "admin123",
+    name: "Admin User",
+    role: "admin",
+  },
+  {
+    id: 3,
+    email: "demo@rufus.com",
+    password: "demo123",
+    name: "Demo User",
+    role: "user",
+  },
+];
+
 const LoginForm: React.FC<SignInProps> = ({
   onSubmit,
   onGoogleSignIn,
@@ -20,6 +46,8 @@ const LoginForm: React.FC<SignInProps> = ({
   onForgotPassword,
   isLoading = false,
 }) => {
+  const router = useRouter();
+
   // ===============================Form State==============================
   const [formData, setFormData] = useState<SignInFormData>({
     email: "",
@@ -28,6 +56,7 @@ const LoginForm: React.FC<SignInProps> = ({
   });
   const [errors, setErrors] = useState<SignInErrors>({});
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // ===============================Input Change Handler==============================
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,25 +103,57 @@ const LoginForm: React.FC<SignInProps> = ({
       return;
     }
 
-    //---------------------- Console log the form data ----------------
-    console.log("Sign In Form Data:", {
-      email: formData.email,
-      password: formData.password,
-      rememberMe: formData.rememberMe,
-      timestamp: new Date().toISOString(),
-    });
+    setIsSubmitting(true);
+    setErrors({});
 
-    //---------------------- Call onSubmit prop if provided ----------------
-    if (onSubmit) {
-      try {
-        await onSubmit(formData);
-      } catch (error) {
-        console.error("Sign in error:", error);
-        setErrors((prev) => ({
-          ...prev,
-          general: "Sign in failed. Please try again.",
-        }));
+    try {
+      //---------------------- Simulate API delay ----------------
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      //---------------------- Check mock credentials ----------------
+      const user = MOCK_USERS.find(
+        (u) => u.email === formData.email && u.password === formData.password,
+      );
+
+      if (user) {
+        //---------------------- Store user data in localStorage ----------------
+        const userData = {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          loggedInAt: new Date().toISOString(),
+        };
+
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        if (formData.rememberMe) {
+          localStorage.setItem("rememberMe", "true");
+        }
+
+        console.log("✅ Login successful:", userData);
+
+        //---------------------- Call onSubmit prop if provided ----------------
+        if (onSubmit) {
+          await onSubmit(formData);
+        }
+
+        //---------------------- Navigate to home page ----------------
+        router.push("/");
+      } else {
+        //---------------------- Invalid credentials ----------------
+        setErrors({
+          general: "Invalid email or password. Please try again.",
+        });
+        console.log(" Login failed: Invalid credentials");
       }
+    } catch (error) {
+      console.error("Sign in error:", error);
+      setErrors({
+        general: "Sign in failed. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -222,13 +283,34 @@ const LoginForm: React.FC<SignInProps> = ({
           </button>
         </div>
 
+        {/* ===============================Demo Credentials Info============================== */}
+        <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-xs sm:text-sm">
+          <p className="mb-2 font-semibold text-yellow-800">
+            Demo Credentials:
+          </p>
+          <div className="space-y-1 text-yellow-700">
+            <p className="flex items-center gap-2">
+              <Mail className="size-3 sm:size-4" /> user@test.com |
+              <Lock className="size-3 sm:size-4" /> password123
+            </p>
+            <p className="flex items-center gap-2">
+              <Mail className="size-3 sm:size-4" /> admin@test.com |
+              <Lock className="size-3 sm:size-4" /> admin123
+            </p>
+            <p className="flex items-center gap-2">
+              <Mail className="size-3 sm:size-4" /> demo@rufus.com |
+              <Lock className="size-3 sm:size-4" /> demo123
+            </p>
+          </div>
+        </div>
+
         {/* ===============================Sign In Button============================== */}
         <Button
           type="submit"
           className="h-11 w-full rounded-lg bg-yellow-500 text-white hover:bg-yellow-600 disabled:cursor-not-allowed disabled:opacity-50 sm:h-12"
-          disabled={isLoading}
+          disabled={isLoading || isSubmitting}
         >
-          {isLoading ? "Signing in..." : "Sign In"}
+          {isLoading || isSubmitting ? "Signing in..." : "Sign In"}
         </Button>
 
         {/* ===============================Divider============================== */}

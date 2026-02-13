@@ -277,6 +277,20 @@ const HotelCheckout = () => {
                 <span className="bg-[#22C55E] text-white px-2 py-1 rounded text-sm font-bold">
                   {hotel.rating}
                 </span>
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <span
+                      key={i}
+                      className={`text-lg ${
+                        i < Math.floor(hotel.rating)
+                          ? "text-[#FFC107]"
+                          : "text-gray-300"
+                      }`}
+                    >
+                      ★
+                    </span>
+                  ))}
+                </div>
                 <span className="text-sm text-gray-600">
                   {hotel.reviews} Reviews
                 </span>
