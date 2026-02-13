@@ -3,32 +3,16 @@
 import Logo from "@/Component/Shared/Logo";
 import React from "react";
 import LoginForm from "./LoginForm";
-import { useAuth } from "@/Providers/AuthProvider";
 import { useRouter } from "next/navigation";
 import type { SignInFormData } from "@/Types/Auth/SignIn/Signin";
 
 const SignIn = () => {
-  const { login, isLoading } = useAuth();
   const router = useRouter();
 
   // ===============================Handle Sign In==============================
+  // Mock login is handled directly in LoginForm - no API calls needed
   const handleSignIn = async (data: SignInFormData) => {
-    try {
-      console.log("Attempting sign in with:", {
-        email: data.email,
-        rememberMe: data.rememberMe,
-      });
-
-      //---------------------- Call login from auth provider ----------------
-      await login(data.email, data.password);
-
-      //---------------------- Redirect on success ----------------
-      console.log("Sign in successful, redirecting to dashboard...");
-      router.push("/dashboard");
-    } catch (error) {
-      console.error("Sign in failed:", error);
-      throw error; // Let LoginForm handle the error display
-    }
+    console.log("Sign in completed for:", data.email);
   };
 
   // ===============================Handle Social Logins==============================
@@ -66,7 +50,6 @@ const SignIn = () => {
         onGoogleSignIn={handleGoogleSignIn}
         onFacebookSignIn={handleFacebookSignIn}
         onForgotPassword={handleForgotPassword}
-        isLoading={isLoading}
       />
     </div>
   );

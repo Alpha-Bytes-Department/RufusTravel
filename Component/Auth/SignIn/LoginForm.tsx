@@ -17,27 +17,47 @@ import type {
 // ===============================Mock User Data==============================
 const MOCK_USERS = [
   {
-    id: 1,
+    id: "usr_001",
     email: "user@test.com",
     password: "password123",
-    name: "Test User",
+    firstName: "Test",
+    lastName: "User",
+    phone: "+1234567890",
     role: "user",
   },
   {
-    id: 2,
+    id: "usr_002",
     email: "admin@test.com",
     password: "admin123",
-    name: "Admin User",
+    firstName: "Admin",
+    lastName: "User",
+    phone: "+1987654321",
     role: "admin",
   },
   {
-    id: 3,
+    id: "usr_003",
     email: "demo@rufus.com",
     password: "demo123",
-    name: "Demo User",
+    firstName: "Demo",
+    lastName: "User",
+    phone: "+1122334455",
     role: "user",
   },
 ];
+
+// ===============================Mock Token Generator==============================
+const generateMockToken = (userId: string) => {
+  const header = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
+  const payload = btoa(
+    JSON.stringify({
+      sub: userId,
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + 86400, // 24 hours
+    }),
+  );
+  const signature = btoa(`mock-signature-${userId}-${Date.now()}`);
+  return `${header}.${payload}.${signature}`;
+};
 
 const LoginForm: React.FC<SignInProps> = ({
   onSubmit,
@@ -107,45 +127,48 @@ const LoginForm: React.FC<SignInProps> = ({
     setErrors({});
 
     try {
-      //---------------------- Simulate API delay ----------------
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      //---------------------- Simulate network delay ----------------
+      await new Promise((resolve) => setTimeout(resolve, 800));
 
       //---------------------- Check mock credentials ----------------
-      const user = MOCK_USERS.find(
+      const matchedUser = MOCK_USERS.find(
         (u) => u.email === formData.email && u.password === formData.password,
       );
 
-      if (user) {
-        //---------------------- Store user data in localStorage ----------------
+      if (matchedUser) {
+        //---------------------- Generate mock tokens ----------------
+        const accessToken = generateMockToken(matchedUser.id);
+        const refreshToken = generateMockToken(`refresh-${matchedUser.id}`);
+
+        //---------------------- Build user object matching AuthProvider format ----------------
         const userData = {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          loggedInAt: new Date().toISOString(),
+          id: matchedUser.id,
+          email: matchedUser.email,
+          firstName: matchedUser.firstName,
+          lastName: matchedUser.lastName,
+          phone: matchedUser.phone,
+          role: matchedUser.role,
         };
 
+        //---------------------- Store tokens and user in localStorage ----------------
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("user", JSON.stringify(userData));
 
         if (formData.rememberMe) {
           localStorage.setItem("rememberMe", "true");
         }
 
-        console.log("✅ Login successful:", userData);
+        console.log("Login successful:", userData);
 
-        //---------------------- Call onSubmit prop if provided ----------------
-        if (onSubmit) {
-          await onSubmit(formData);
-        }
-
-        //---------------------- Navigate to home page ----------------
+        //---------------------- Redirect to home page ----------------
         router.push("/");
       } else {
         //---------------------- Invalid credentials ----------------
         setErrors({
           general: "Invalid email or password. Please try again.",
         });
-        console.log(" Login failed: Invalid credentials");
+        console.log("Login failed: Invalid credentials");
       }
     } catch (error) {
       console.error("Sign in error:", error);
