@@ -77,9 +77,7 @@ const Checkout: React.FC = () => {
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-semibold text-gray-400">Flight details</h3>
 
-              <button className="text-yellow-500 text-sm font-medium cursor-pointer">
-                Change flight
-              </button>
+              
             </div>
             <div className="flex gap-3 items-center mb-4">
               <div className="w-28 h-14 shrink-0 rounded-md border border-gray-200 bg-white p-2 flex items-center justify-center">
