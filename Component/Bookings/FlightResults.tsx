@@ -50,8 +50,7 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
       outbound: {
         id: "out1",
         airline: "British Airways",
-        airlineLogo:
-          "https://upload.wikimedia.org/wikipedia/en/thumb/4/42/British_Airways_Logo.svg/200px-British_Airways_Logo.svg.png",
+        airlineLogo: "/britishAir.jpg",
         departureCode: "ABJ",
         departureName: "Dhaka",
         departureTime: "15:50",
@@ -69,8 +68,8 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
       return: {
         id: "ret1",
         airline: "British Airways",
-        airlineLogo:
-          "https://upload.wikimedia.org/wikipedia/en/thumb/4/42/British_Airways_Logo.svg/200px-British_Airways_Logo.svg.png",
+        airlineLogo: "/britishAir.jpg",
+
         departureCode: "LND",
         departureName: "Dhaka",
         departureTime: "15:50",
@@ -94,8 +93,7 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
       outbound: {
         id: "out2",
         airline: "British Airways",
-        airlineLogo:
-          "https://upload.wikimedia.org/wikipedia/en/thumb/4/42/British_Airways_Logo.svg/200px-British_Airways_Logo.svg.png",
+        airlineLogo: "/britishAir.jpg",
         departureCode: "ABJ",
         departureName: "Dhaka",
         departureTime: "15:50",
@@ -113,8 +111,7 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
       return: {
         id: "ret2",
         airline: "British Airways",
-        airlineLogo:
-          "https://upload.wikimedia.org/wikipedia/en/thumb/4/42/British_Airways_Logo.svg/200px-British_Airways_Logo.svg.png",
+        airlineLogo: "https://i.ibb.co.com/c4sQW2x/british-Air.jpg",
         departureCode: "LND",
         departureName: "Dhaka",
         departureTime: "16:55",
@@ -204,7 +201,7 @@ const FlightResults = ({ searchData }: FlightResultsProps) => {
         airlineLogo:
           "https://via.placeholder.com/80x80/4B5563/FFFFFF?text=ASKY",
         departureCode: "LND",
-        departureName: "Dhaka",
+        departureName: "London",
         departureTime: "09:00",
         departureDate: "Wed 05 Dec",
         arrivalCode: "ABJ",

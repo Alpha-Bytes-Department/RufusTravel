@@ -2,16 +2,13 @@
 
 import { FaPlane } from "react-icons/fa";
 
-
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
-import { useState } from "react";
+
 import AvailableFlights from "./AvailableFlights";
 
+const BRITISH_AIRWAYS_LOGO = "/britishAir.jpg";
 
 const Checkout: React.FC = () => {
-
-  https://www.youtube.com/
-    
   return (
     <div className=" px-3 lg:px-16 py-6">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -19,11 +16,15 @@ const Checkout: React.FC = () => {
         <div className="lg:col-span-2 space-y-6">
           {/* Flight Card */}
           <div className="bg-white border rounded-xl shadow-sm p-6">
-            <div className="flex items-center gap-2 border rounded-sm">
-              <div>
-                <img src="/british_airways.png" alt="british_air" />
+            <div className="flex items-center gap-3 border rounded-md p-2">
+              <div className="w-28 h-14 shrink-0 rounded-md border border-gray-200 bg-white p-2 flex items-center justify-center">
+                <img
+                  src={BRITISH_AIRWAYS_LOGO}
+                  alt="british_air"
+                  className="w-full h-full object-contain"
+                />
               </div>
-              <div className="text-sm mb-2">
+              <div className="text-sm leading-tight">
                 <h1 className="text-gray-500">British AIR </h1>
                 <h1 className="text-gray-400">VQ-931 • Economy (B)</h1>
               </div>
@@ -80,16 +81,20 @@ const Checkout: React.FC = () => {
                 Change flight
               </button>
             </div>
-            <div className="flex gap-2 items-center mb-4">
-              <div>
-                <img src="/british_airways.png" alt="british_air" />
+            <div className="flex gap-3 items-center mb-4">
+              <div className="w-28 h-14 shrink-0 rounded-md border border-gray-200 bg-white p-2 flex items-center justify-center">
+                <img
+                  src={BRITISH_AIRWAYS_LOGO}
+                  alt="british_air"
+                  className="w-full h-full object-contain"
+                />
               </div>
-              <div>
+              <div className="leading-tight">
                 <h2 className="text-gray-600">British AIR</h2>
                 <h3 className="text-gray-400">ABJ-LND</h3>
               </div>
             </div>
-            <hr  className="w-56 mb-4"/>
+            <hr className="w-56 mb-4" />
             <div className="space-y-4 text-sm">
               {[
                 "Seat choice for a fee",
@@ -168,7 +173,7 @@ const Checkout: React.FC = () => {
         </div>
       </div>
       {/*Available Flight: add the code here:*/}
-      <AvailableFlights/>
+      <AvailableFlights />
     </div>
   );
 };

@@ -185,17 +185,19 @@ const FlightCard = ({ flight, onDetailsClick }: FlightCardProps) => {
                 {/* Airline Header */}
                 <div className="bg-gray-50 rounded-xl p-4 mb-8">
                   <div className="flex items-center gap-4">
-                    <img
-                      src="/british_airways.png"
-                      alt="British Airways"
-                      className="w-16 h-16 object-contain"
-                    />
+                    <div className="w-28 h-14 shrink-0 rounded-md border border-gray-200 bg-white p-2 flex items-center justify-center">
+                      <img
+                        src={flight.outbound.airlineLogo}
+                        alt={flight.outbound.airline}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
                     <div>
                       <div className="font-medium text-gray-800">
-                        British AIR
+                        {flight.outbound.airline}
                       </div>
                       <div className="text-sm text-gray-600">
-                        VQ-931 • Economy (B)
+                        {flight.outbound.flightNumber} • {flight.outbound.class}
                       </div>
                     </div>
                   </div>
