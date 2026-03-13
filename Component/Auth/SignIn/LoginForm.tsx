@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +14,51 @@ import type {
   SignInErrors,
 } from "@/Types/Auth/SignIn/Signin";
 
+// ===============================Mock User Data==============================
+const MOCK_USERS = [
+  {
+    id: "usr_001",
+    email: "user@test.com",
+    password: "password123",
+    firstName: "Test",
+    lastName: "User",
+    phone: "+1234567890",
+    role: "user",
+  },
+  {
+    id: "usr_002",
+    email: "admin@test.com",
+    password: "admin123",
+    firstName: "Admin",
+    lastName: "User",
+    phone: "+1987654321",
+    role: "admin",
+  },
+  {
+    id: "usr_003",
+    email: "demo@rufus.com",
+    password: "demo123",
+    firstName: "Demo",
+    lastName: "User",
+    phone: "+1122334455",
+    role: "user",
+  },
+];
+
+// ===============================Mock Token Generator==============================
+const generateMockToken = (userId: string) => {
+  const header = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
+  const payload = btoa(
+    JSON.stringify({
+      sub: userId,
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + 86400, // 24 hours
+    }),
+  );
+  const signature = btoa(`mock-signature-${userId}-${Date.now()}`);
+  return `${header}.${payload}.${signature}`;
+};
+
 const LoginForm: React.FC<SignInProps> = ({
   onSubmit,
   onGoogleSignIn,
@@ -20,6 +66,8 @@ const LoginForm: React.FC<SignInProps> = ({
   onForgotPassword,
   isLoading = false,
 }) => {
+  const router = useRouter();
+
   // ===============================Form State==============================
   const [formData, setFormData] = useState<SignInFormData>({
     email: "",
@@ -28,6 +76,7 @@ const LoginForm: React.FC<SignInProps> = ({
   });
   const [errors, setErrors] = useState<SignInErrors>({});
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // ===============================Input Change Handler==============================
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,25 +123,60 @@ const LoginForm: React.FC<SignInProps> = ({
       return;
     }
 
-    //---------------------- Console log the form data ----------------
-    console.log("Sign In Form Data:", {
-      email: formData.email,
-      password: formData.password,
-      rememberMe: formData.rememberMe,
-      timestamp: new Date().toISOString(),
-    });
+    setIsSubmitting(true);
+    setErrors({});
 
-    //---------------------- Call onSubmit prop if provided ----------------
-    if (onSubmit) {
-      try {
-        await onSubmit(formData);
-      } catch (error) {
-        console.error("Sign in error:", error);
-        setErrors((prev) => ({
-          ...prev,
-          general: "Sign in failed. Please try again.",
-        }));
+    try {
+      //---------------------- Simulate network delay ----------------
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
+      //---------------------- Check mock credentials ----------------
+      const matchedUser = MOCK_USERS.find(
+        (u) => u.email === formData.email && u.password === formData.password,
+      );
+
+      if (matchedUser) {
+        //---------------------- Generate mock tokens ----------------
+        const accessToken = generateMockToken(matchedUser.id);
+        const refreshToken = generateMockToken(`refresh-${matchedUser.id}`);
+
+        //---------------------- Build user object matching AuthProvider format ----------------
+        const userData = {
+          id: matchedUser.id,
+          email: matchedUser.email,
+          firstName: matchedUser.firstName,
+          lastName: matchedUser.lastName,
+          phone: matchedUser.phone,
+          role: matchedUser.role,
+        };
+
+        //---------------------- Store tokens and user in localStorage ----------------
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        if (formData.rememberMe) {
+          localStorage.setItem("rememberMe", "true");
+        }
+
+        console.log("Login successful:", userData);
+
+        //---------------------- Redirect to home page ----------------
+        router.push("/");
+      } else {
+        //---------------------- Invalid credentials ----------------
+        setErrors({
+          general: "Invalid email or password. Please try again.",
+        });
+        console.log("Login failed: Invalid credentials");
       }
+    } catch (error) {
+      console.error("Sign in error:", error);
+      setErrors({
+        general: "Sign in failed. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -222,13 +306,34 @@ const LoginForm: React.FC<SignInProps> = ({
           </button>
         </div>
 
+        {/* ===============================Demo Credentials Info============================== */}
+        <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-xs sm:text-sm">
+          <p className="mb-2 font-semibold text-yellow-800">
+            Demo Credentials:
+          </p>
+          <div className="space-y-1 text-yellow-700">
+            <p className="flex items-center gap-2">
+              <Mail className="size-3 sm:size-4" /> user@test.com |
+              <Lock className="size-3 sm:size-4" /> password123
+            </p>
+            <p className="flex items-center gap-2">
+              <Mail className="size-3 sm:size-4" /> admin@test.com |
+              <Lock className="size-3 sm:size-4" /> admin123
+            </p>
+            <p className="flex items-center gap-2">
+              <Mail className="size-3 sm:size-4" /> demo@rufus.com |
+              <Lock className="size-3 sm:size-4" /> demo123
+            </p>
+          </div>
+        </div>
+
         {/* ===============================Sign In Button============================== */}
         <Button
           type="submit"
           className="h-11 w-full rounded-lg bg-yellow-500 text-white hover:bg-yellow-600 disabled:cursor-not-allowed disabled:opacity-50 sm:h-12"
-          disabled={isLoading}
+          disabled={isLoading || isSubmitting}
         >
-          {isLoading ? "Signing in..." : "Sign In"}
+          {isLoading || isSubmitting ? "Signing in..." : "Sign In"}
         </Button>
 
         {/* ===============================Divider============================== */}

@@ -41,11 +41,7 @@ interface Flight {
 
 const flights: Flight[] = [
   {
-    images: [
-      "https://images.unsplash.com/photo-1436491865338-7a61a109cc05?q=80&w=2074&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1436491865338-7a61a109cc05?q=80&w=2074&auto=format&fit=crop",
-    ],
+    images: ["/card.png", "/bannerBackground.webp", "/card.png"],
     airline: "United Airlines",
     flightNumber: "UA 2451",
     rating: "8.8",
@@ -78,11 +74,7 @@ const flights: Flight[] = [
     seatsLeft: "Only 4 seats left at this price",
   },
   {
-    images: [
-      "https://images.unsplash.com/photo-1436491865338-7a61a109cc05?q=80&w=2074&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1436491865338-7a61a109cc05?q=80&w=2074&auto=format&fit=crop",
-    ],
+    images: ["/card.png", "/bannerBackground.webp", "/card.png"],
     airline: "Delta Air Lines",
     flightNumber: "DL 1522",
     rating: "9.3",
@@ -114,11 +106,7 @@ const flights: Flight[] = [
     seatsLeft: "Only 6 seats left at this price",
   },
   {
-    images: [
-      "https://images.unsplash.com/photo-1436491865338-7a61a109cc05?q=80&w=2074&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1436491865338-7a61a109cc05?q=80&w=2074&auto=format&fit=crop",
-    ],
+    images: ["/card.png", "/bannerBackground.webp", "/card.png"],
     airline: "American Airlines",
     flightNumber: "AA 178",
     rating: "8.2",
@@ -162,7 +150,7 @@ const FlightCard = ({ flight }: { flight: Flight }) => {
 
   const prevImage = () => {
     setCurrentImageIndex(
-      (prev) => (prev - 1 + flight.images.length) % flight.images.length
+      (prev) => (prev - 1 + flight.images.length) % flight.images.length,
     );
   };
 
@@ -178,6 +166,12 @@ const FlightCard = ({ flight }: { flight: Flight }) => {
           src={flight.images[currentImageIndex]}
           alt={`${flight.airline} aircraft`}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (target.dataset.fallbackApplied === "true") return;
+            target.dataset.fallbackApplied = "true";
+            target.src = "/card.png";
+          }}
         />
 
         {/* Top-left Text Badge */}
@@ -216,7 +210,7 @@ const FlightCard = ({ flight }: { flight: Flight }) => {
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col flex-grow">
+      <div className="p-4 flex flex-col grow">
         <div className="flex justify-between items-start mb-2">
           <div>
             <h3 className="font-bold text-lg">{flight.airline}</h3>
@@ -294,7 +288,7 @@ const FlightCard = ({ flight }: { flight: Flight }) => {
 
 const AvailableFlights = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className=" py-8">
       <h1 className="text-3xl font-bold mb-8">Available Flights</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
