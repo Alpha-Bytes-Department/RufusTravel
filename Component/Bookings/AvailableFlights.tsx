@@ -41,7 +41,7 @@ interface Flight {
 
 const flights: Flight[] = [
   {
-    images: ["/card.png", "/bannerBackground.webp", "/card.png"],
+    images: ["/united_airline.jpg", "/bannerBackground.webp", "/card.png"],
     airline: "United Airlines",
     flightNumber: "UA 2451",
     rating: "8.8",
@@ -74,7 +74,7 @@ const flights: Flight[] = [
     seatsLeft: "Only 4 seats left at this price",
   },
   {
-    images: ["/card.png", "/bannerBackground.webp", "/card.png"],
+    images: ["/delta_airline.jpg", "/bannerBackground.webp", "/card.png"],
     airline: "Delta Air Lines",
     flightNumber: "DL 1522",
     rating: "9.3",
@@ -106,7 +106,7 @@ const flights: Flight[] = [
     seatsLeft: "Only 6 seats left at this price",
   },
   {
-    images: ["/card.png", "/bannerBackground.webp", "/card.png"],
+    images: ["/american_airlines.jpg", "/bannerBackground.webp", "/card.png"],
     airline: "American Airlines",
     flightNumber: "AA 178",
     rating: "8.2",
@@ -179,7 +179,7 @@ const FlightCard = ({ flight }: { flight: Flight }) => {
           Best Package
         </div>
 
-        {/* Navigation Arrows */}
+        {/* Navigation Arrows
         <button
           onClick={prevImage}
           className="absolute left-2 top-1/2 -translate-y-1/2 bg-white text-gray-700 font-extrabold h-8 w-8 flex items-center justify-center rounded-full hover:bg-black/60 hover:text-white transition"
@@ -194,7 +194,7 @@ const FlightCard = ({ flight }: { flight: Flight }) => {
           aria-label="Next image"
         >
           &gt;
-        </button>
+        </button> */}
 
         {/* Dots indicator */}
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2">
