@@ -18,7 +18,8 @@ const NavBar = () => {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/explore", label: "Explore" },
-    ...(!user ? [{ href: "/bookings", label: "Bookings" }] : []),
+    // ...(!user ? [{ href: "/bookings", label: "Bookings" }] : []),
+    { href: "/bookings", label: "Bookings" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
   ];
